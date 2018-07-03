@@ -1,0 +1,916 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MembershipModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FamilyMember">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="BirthDate" Type="datetime" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" />
+          <Property Name="BloodGroupId" Type="int" Nullable="false" />
+          <Property Name="Relation" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="MaritalStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="Age" Type="int" />
+          <Property Name="CardNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="ImagePath" Type="nvarchar" MaxLength="200" />
+          <Property Name="MemberRegisterId" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="DeletedBy" Type="int" />
+          <Property Name="DeletedOn" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="MasterBloodGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BloodGroup" Type="nvarchar" MaxLength="5" />
+          <Property Name="Code" Type="nvarchar" MaxLength="5" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="DeletedBy" Type="int" />
+          <Property Name="DeletedOn" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="MemberRegister">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" />
+          <Property Name="ZipCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="nvarchar" MaxLength="50" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+          <Property Name="Comments" Type="nvarchar" MaxLength="200" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" />
+          <Property Name="Nationality" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReferredBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ImagePath" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="MembershipCategoryId" Type="int" Nullable="false" />
+          <Property Name="MembershipName" Type="int" Nullable="false" />
+          <Property Name="CardNumber" Type="nvarchar" MaxLength="15" />
+          <Property Name="MemberCode1" Type="nvarchar" MaxLength="10" />
+          <Property Name="MembershipEndDate" Type="datetime" />
+          <Property Name="Fees" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CreditLimit" Type="int" />
+          <Property Name="AvailableCredit" Type="int" />
+          <Property Name="TotalTaxAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NetAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="AmountPaid" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="DeletedBy" Type="int" />
+          <Property Name="DeletedOn" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="MemberCode2" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="MembershipBenefit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MembershipName" Type="nvarchar" MaxLength="50" />
+          <Property Name="MemberPrefixCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="MembershipCategoryId" Type="int" Nullable="false" />
+          <Property Name="DurationId" Type="int" Nullable="false" />
+          <Property Name="Fees" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CreditLimit" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MaxAdult" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MaxChild" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="DeletedBy" Type="int" />
+          <Property Name="DeletedOn" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="MembershipCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MembershipName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CategoryType" Type="nvarchar" MaxLength="10" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="DeletedBy" Type="int" />
+          <Property Name="DeletedOn" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="MembershipDuration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DurationName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DurationDays" Type="int" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="DeletedBy" Type="int" />
+          <Property Name="DeletedOn" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblActerActressList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StarName" Type="nvarchar" MaxLength="50" />
+          <Property Name="StarType" Type="nvarchar" MaxLength="50" />
+          <Property Name="ImagePath" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK_FamilyMember_MasterBloodGroup">
+          <End Role="MasterBloodGroup" Type="Self.MasterBloodGroup" Multiplicity="1" />
+          <End Role="FamilyMember" Type="Self.FamilyMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterBloodGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FamilyMember">
+              <PropertyRef Name="BloodGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FamilyMember_MemberRegister">
+          <End Role="MemberRegister" Type="Self.MemberRegister" Multiplicity="1" />
+          <End Role="FamilyMember" Type="Self.FamilyMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MemberRegister">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FamilyMember">
+              <PropertyRef Name="MemberRegisterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberRegister_MembershipCategory">
+          <End Role="MembershipCategory" Type="Self.MembershipCategory" Multiplicity="1" />
+          <End Role="MemberRegister" Type="Self.MemberRegister" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MembershipCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MemberRegister">
+              <PropertyRef Name="MembershipCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MembershipBenefit_MembershipCategory">
+          <End Role="MembershipCategory" Type="Self.MembershipCategory" Multiplicity="1" />
+          <End Role="MembershipBenefit" Type="Self.MembershipBenefit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MembershipCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MembershipBenefit">
+              <PropertyRef Name="MembershipCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MembershipBenefit_MembershipDuration">
+          <End Role="MembershipDuration" Type="Self.MembershipDuration" Multiplicity="1" />
+          <End Role="MembershipBenefit" Type="Self.MembershipBenefit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MembershipDuration">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MembershipBenefit">
+              <PropertyRef Name="DurationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AddUpdateDeleteMembershipCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pMembershipName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pCategoryType" Type="nvarchar" Mode="In" />
+          <Parameter Name="pDescription" Type="nvarchar" Mode="In" />
+          <Parameter Name="pDurationName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pDurationDays" Type="int" Mode="In" />
+          <Parameter Name="pMembershipPrefixCode" Type="nvarchar" Mode="In" />
+          <Parameter Name="pMembershipCategoryId" Type="int" Mode="In" />
+          <Parameter Name="pDurationId" Type="int" Mode="In" />
+          <Parameter Name="pFees" Type="decimal" Mode="In" />
+          <Parameter Name="pCreditLimit" Type="decimal" Mode="In" />
+          <Parameter Name="pMaxAdult" Type="decimal" Mode="In" />
+          <Parameter Name="pMaxChild" Type="decimal" Mode="In" />
+          <Parameter Name="pFlag" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetMasterTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pFlag" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetMembeshipCategoryAndDuration" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pMembershipId" Type="int" Mode="In" />
+          <Parameter Name="pFlag" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetMembeshipDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pMembershipCategoryId" Type="int" Mode="In" />
+          <Parameter Name="pMembershipTypeId" Type="int" Mode="In" />
+          <Parameter Name="pFlag" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="InsertUpdateFamilyMemberDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pBirthDate" Type="datetime" Mode="In" />
+          <Parameter Name="pFamilyCategoryTypeId" Type="nvarchar" Mode="In" />
+          <Parameter Name="pBloodGroupName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pRelation" Type="nvarchar" Mode="In" />
+          <Parameter Name="pContactNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="pEmail" Type="nvarchar" Mode="In" />
+          <Parameter Name="pMaritulStatus" Type="nvarchar" Mode="In" />
+          <Parameter Name="pAge" Type="int" Mode="In" />
+          <Parameter Name="pFamilyCardNumber" Type="nvarchar" Mode="In" />
+          <Parameter Name="pLastMemberId" Type="int" Mode="In" />
+          <Parameter Name="pFamilyPhoto" Type="nvarchar" Mode="In" />
+          <Parameter Name="pFlag" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="InsertUpdateMemberDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pFirstName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pLastName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="pZipCode" Type="nvarchar" Mode="In" />
+          <Parameter Name="pCity" Type="nvarchar" Mode="In" />
+          <Parameter Name="pState" Type="nvarchar" Mode="In" />
+          <Parameter Name="pCountry" Type="nvarchar" Mode="In" />
+          <Parameter Name="pGender" Type="nvarchar" Mode="In" />
+          <Parameter Name="pComment" Type="nvarchar" Mode="In" />
+          <Parameter Name="pCategoryTypeId" Type="nvarchar" Mode="In" />
+          <Parameter Name="pNationality" Type="nvarchar" Mode="In" />
+          <Parameter Name="pReferred" Type="nvarchar" Mode="In" />
+          <Parameter Name="pIsActive" Type="bit" Mode="In" />
+          <Parameter Name="pMembershipCategoryId" Type="int" Mode="In" />
+          <Parameter Name="pMembershipName" Type="int" Mode="In" />
+          <Parameter Name="pCardNumber" Type="nvarchar" Mode="In" />
+          <Parameter Name="pMemberCode1" Type="nvarchar" Mode="In" />
+          <Parameter Name="pMemberCode2" Type="nvarchar" Mode="In" />
+          <Parameter Name="pMembershipEndDate" Type="datetime" Mode="In" />
+          <Parameter Name="pFees" Type="decimal" Mode="In" />
+          <Parameter Name="pCreditLimit" Type="decimal" Mode="In" />
+          <Parameter Name="pAvailableCredit" Type="decimal" Mode="In" />
+          <Parameter Name="pTotalTaxAmount" Type="decimal" Mode="In" />
+          <Parameter Name="pNetAmount" Type="decimal" Mode="In" />
+          <Parameter Name="pAmountPaid" Type="decimal" Mode="In" />
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="pFlag" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="spDeleteMembershipDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pId" Type="int" Mode="In" />
+          <Parameter Name="pFlag" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="spGetActorActressImageDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pFlag" Type="nvarchar" Mode="In" />
+          <Parameter Name="pSortType" Type="nvarchar" Mode="In" />
+          <Parameter Name="PageNo" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="SortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortOrder" Type="nvarchar" Mode="In" />
+          <Parameter Name="pTotalCount" Type="int" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="MembershipModelStoreContainer">
+          <EntitySet Name="FamilyMember" EntityType="Self.FamilyMember" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MasterBloodGroup" EntityType="Self.MasterBloodGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MemberRegister" EntityType="Self.MemberRegister" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MembershipBenefit" EntityType="Self.MembershipBenefit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MembershipCategory" EntityType="Self.MembershipCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MembershipDuration" EntityType="Self.MembershipDuration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblActerActressList" EntityType="Self.tblActerActressList" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_FamilyMember_MasterBloodGroup" Association="Self.FK_FamilyMember_MasterBloodGroup">
+            <End Role="MasterBloodGroup" EntitySet="MasterBloodGroup" />
+            <End Role="FamilyMember" EntitySet="FamilyMember" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FamilyMember_MemberRegister" Association="Self.FK_FamilyMember_MemberRegister">
+            <End Role="MemberRegister" EntitySet="MemberRegister" />
+            <End Role="FamilyMember" EntitySet="FamilyMember" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberRegister_MembershipCategory" Association="Self.FK_MemberRegister_MembershipCategory">
+            <End Role="MembershipCategory" EntitySet="MembershipCategory" />
+            <End Role="MemberRegister" EntitySet="MemberRegister" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MembershipBenefit_MembershipCategory" Association="Self.FK_MembershipBenefit_MembershipCategory">
+            <End Role="MembershipCategory" EntitySet="MembershipCategory" />
+            <End Role="MembershipBenefit" EntitySet="MembershipBenefit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MembershipBenefit_MembershipDuration" Association="Self.FK_MembershipBenefit_MembershipDuration">
+            <End Role="MembershipDuration" EntitySet="MembershipDuration" />
+            <End Role="MembershipBenefit" EntitySet="MembershipBenefit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MembershipModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MembershipCatEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="AddUpdateDeleteMembershipCategory" ReturnType="Collection(MembershipModel.AddUpdateDeleteMembershipCategory_Result)">
+            <Parameter Name="pMembershipName" Mode="In" Type="String" />
+            <Parameter Name="pCategoryType" Mode="In" Type="String" />
+            <Parameter Name="pDescription" Mode="In" Type="String" />
+            <Parameter Name="pDurationName" Mode="In" Type="String" />
+            <Parameter Name="pDurationDays" Mode="In" Type="Int32" />
+            <Parameter Name="pMembershipPrefixCode" Mode="In" Type="String" />
+            <Parameter Name="pMembershipCategoryId" Mode="In" Type="Int32" />
+            <Parameter Name="pDurationId" Mode="In" Type="Int32" />
+            <Parameter Name="pFees" Mode="In" Type="Decimal" />
+            <Parameter Name="pCreditLimit" Mode="In" Type="Decimal" />
+            <Parameter Name="pMaxAdult" Mode="In" Type="Decimal" />
+            <Parameter Name="pMaxChild" Mode="In" Type="Decimal" />
+            <Parameter Name="pFlag" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetMembeshipCategoryAndDuration" ReturnType="Collection(MembershipModel.GetMembeshipCategoryAndDuration_Result)">
+            <Parameter Name="pMembershipId" Mode="In" Type="Int32" />
+            <Parameter Name="pFlag" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetMembeshipDetails" ReturnType="Collection(MembershipModel.GetMembeshipDetails_Result)">
+            <Parameter Name="pMembershipCategoryId" Mode="In" Type="Int32" />
+            <Parameter Name="pMembershipTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="pFlag" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetMasterTypes" ReturnType="Collection(MembershipModel.GetMasterTypes_Result)">
+          <Parameter Name="pFlag" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="FamilyMembers" EntityType="MembershipModel.FamilyMember" />
+          <EntitySet Name="MembershipCategories" EntityType="MembershipModel.MembershipCategory" />
+          <EntitySet Name="MembershipBenefits" EntityType="MembershipModel.MembershipBenefit" />
+          <EntitySet Name="MembershipDurations" EntityType="MembershipModel.MembershipDuration" />
+          <AssociationSet Name="FK_MembershipBenefit_MembershipCategory" Association="MembershipModel.FK_MembershipBenefit_MembershipCategory">
+            <End Role="MembershipCategory" EntitySet="MembershipCategories" />
+            <End Role="MembershipBenefit" EntitySet="MembershipBenefits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MembershipBenefit_MembershipDuration" Association="MembershipModel.FK_MembershipBenefit_MembershipDuration">
+            <End Role="MembershipDuration" EntitySet="MembershipDurations" />
+            <End Role="MembershipBenefit" EntitySet="MembershipBenefits" />
+          </AssociationSet>
+          <FunctionImport Name="spDeleteMembershipDetails" ReturnType="Collection(MembershipModel.spDeleteMembershipDetails_Result)">
+            <Parameter Name="pId" Mode="In" Type="Int32" />
+            <Parameter Name="pFlag" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="MemberRegisters" EntityType="MembershipModel.MemberRegister" />
+          <AssociationSet Name="FK_FamilyMember_MemberRegister" Association="MembershipModel.FK_FamilyMember_MemberRegister">
+            <End Role="MemberRegister" EntitySet="MemberRegisters" />
+            <End Role="FamilyMember" EntitySet="FamilyMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberRegister_MembershipCategory" Association="MembershipModel.FK_MemberRegister_MembershipCategory">
+            <End Role="MembershipCategory" EntitySet="MembershipCategories" />
+            <End Role="MemberRegister" EntitySet="MemberRegisters" />
+          </AssociationSet>
+          <EntitySet Name="MasterBloodGroups" EntityType="MembershipModel.MasterBloodGroup" />
+          <AssociationSet Name="FK_FamilyMember_MasterBloodGroup" Association="MembershipModel.FK_FamilyMember_MasterBloodGroup">
+            <End Role="MasterBloodGroup" EntitySet="MasterBloodGroups" />
+            <End Role="FamilyMember" EntitySet="FamilyMembers" />
+          </AssociationSet>
+          <EntitySet Name="tblActerActressLists" EntityType="MembershipModel.tblActerActressList" />
+          <FunctionImport Name="spGetActorActressImageDetails" ReturnType="Collection(MembershipModel.spGetActorActressImageDetails_Result)">
+            <Parameter Name="pFlag" Mode="In" Type="String" />
+            <Parameter Name="pSortType" Mode="In" Type="String" />
+            <Parameter Name="PageNo" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortOrder" Mode="In" Type="String" />
+            <Parameter Name="pTotalCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertUpdateFamilyMemberDetails" ReturnType="Collection(MembershipModel.InsertUpdateFamilyMemberDetails_Result)">
+            <Parameter Name="pName" Mode="In" Type="String" />
+            <Parameter Name="pBirthDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pFamilyCategoryTypeId" Mode="In" Type="String" />
+            <Parameter Name="pBloodGroupName" Mode="In" Type="String" />
+            <Parameter Name="pRelation" Mode="In" Type="String" />
+            <Parameter Name="pContactNo" Mode="In" Type="String" />
+            <Parameter Name="pEmail" Mode="In" Type="String" />
+            <Parameter Name="pMaritulStatus" Mode="In" Type="String" />
+            <Parameter Name="pAge" Mode="In" Type="Int32" />
+            <Parameter Name="pFamilyCardNumber" Mode="In" Type="String" />
+            <Parameter Name="pLastMemberId" Mode="In" Type="Int32" />
+            <Parameter Name="pFamilyPhoto" Mode="In" Type="String" />
+            <Parameter Name="pFlag" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="InsertUpdateMemberDetails" ReturnType="Collection(MembershipModel.InsertUpdateMemberDetails_Result)">
+            <Parameter Name="pFirstName" Mode="In" Type="String" />
+            <Parameter Name="pLastName" Mode="In" Type="String" />
+            <Parameter Name="pAddress" Mode="In" Type="String" />
+            <Parameter Name="pZipCode" Mode="In" Type="String" />
+            <Parameter Name="pCity" Mode="In" Type="String" />
+            <Parameter Name="pState" Mode="In" Type="String" />
+            <Parameter Name="pCountry" Mode="In" Type="String" />
+            <Parameter Name="pGender" Mode="In" Type="String" />
+            <Parameter Name="pComment" Mode="In" Type="String" />
+            <Parameter Name="pCategoryTypeId" Mode="In" Type="String" />
+            <Parameter Name="pNationality" Mode="In" Type="String" />
+            <Parameter Name="pReferred" Mode="In" Type="String" />
+            <Parameter Name="pIsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="pMembershipCategoryId" Mode="In" Type="Int32" />
+            <Parameter Name="pMembershipName" Mode="In" Type="Int32" />
+            <Parameter Name="pCardNumber" Mode="In" Type="String" />
+            <Parameter Name="pMemberCode1" Mode="In" Type="String" />
+            <Parameter Name="pMemberCode2" Mode="In" Type="String" />
+            <Parameter Name="pMembershipEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pFees" Mode="In" Type="Decimal" />
+            <Parameter Name="pCreditLimit" Mode="In" Type="Decimal" />
+            <Parameter Name="pAvailableCredit" Mode="In" Type="Decimal" />
+            <Parameter Name="pTotalTaxAmount" Mode="In" Type="Decimal" />
+            <Parameter Name="pNetAmount" Mode="In" Type="Decimal" />
+            <Parameter Name="pAmountPaid" Mode="In" Type="Decimal" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="pFlag" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="AddUpdateDeleteMembershipCategory_Result">
+          <Property Type="String" Name="result" Nullable="false" MaxLength="28" />
+        </ComplexType>
+        <ComplexType Name="GetMembeshipCategoryAndDuration_Result">
+          <Property Type="String" Name="Text" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Value" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetMembeshipDetails_Result">
+          <Property Type="Decimal" Name="Fees" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="CreditLimit" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="InsertUpdateMemberDetails_Result">
+          <Property Type="Decimal" Name="result" Nullable="true" Precision="38" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="GetMasterTypes_Result">
+          <Property Type="String" Name="Text" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Value" Nullable="true" MaxLength="5" />
+        </ComplexType>
+        <ComplexType Name="InsertUpdateFamilyMemberDetails_Result">
+          <Property Type="Decimal" Name="result" Nullable="true" Precision="38" Scale="0" />
+        </ComplexType>
+        <EntityType Name="FamilyMember">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="3" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BloodGroupId" Type="Int32" Nullable="false" />
+          <Property Name="Relation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaritalStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="CardNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ImagePath" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MemberRegisterId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="DeletedBy" Type="Int32" />
+          <Property Name="DeletedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="MemberRegister" Relationship="MembershipModel.FK_FamilyMember_MemberRegister" FromRole="FamilyMember" ToRole="MemberRegister" />
+          <NavigationProperty Name="MasterBloodGroup" Relationship="MembershipModel.FK_FamilyMember_MasterBloodGroup" FromRole="FamilyMember" ToRole="MasterBloodGroup" />
+        </EntityType>
+        <EntityType Name="MembershipCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MembershipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="DeletedBy" Type="Int32" />
+          <Property Name="DeletedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="MembershipBenefits" Relationship="MembershipModel.FK_MembershipBenefit_MembershipCategory" FromRole="MembershipCategory" ToRole="MembershipBenefit" />
+          <NavigationProperty Name="MemberRegisters" Relationship="MembershipModel.FK_MemberRegister_MembershipCategory" FromRole="MembershipCategory" ToRole="MemberRegister" />
+        </EntityType>
+        <EntityType Name="MembershipBenefit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MembershipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberPrefixCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="MembershipCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="DurationId" Type="Int32" Nullable="false" />
+          <Property Name="Fees" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreditLimit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MaxAdult" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MaxChild" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="DeletedBy" Type="Int32" />
+          <Property Name="DeletedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="MembershipCategory" Relationship="MembershipModel.FK_MembershipBenefit_MembershipCategory" FromRole="MembershipBenefit" ToRole="MembershipCategory" />
+          <NavigationProperty Name="MembershipDuration" Relationship="MembershipModel.FK_MembershipBenefit_MembershipDuration" FromRole="MembershipBenefit" ToRole="MembershipDuration" />
+        </EntityType>
+        <EntityType Name="MembershipDuration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DurationName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DurationDays" Type="Int32" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="DeletedBy" Type="Int32" />
+          <Property Name="DeletedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="MembershipBenefits" Relationship="MembershipModel.FK_MembershipBenefit_MembershipDuration" FromRole="MembershipDuration" ToRole="MembershipBenefit" />
+        </EntityType>
+        <Association Name="FK_MembershipBenefit_MembershipCategory">
+          <End Type="MembershipModel.MembershipCategory" Role="MembershipCategory" Multiplicity="1" />
+          <End Type="MembershipModel.MembershipBenefit" Role="MembershipBenefit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MembershipCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MembershipBenefit">
+              <PropertyRef Name="MembershipCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MembershipBenefit_MembershipDuration">
+          <End Type="MembershipModel.MembershipDuration" Role="MembershipDuration" Multiplicity="1" />
+          <End Type="MembershipModel.MembershipBenefit" Role="MembershipBenefit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MembershipDuration">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MembershipBenefit">
+              <PropertyRef Name="DurationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spDeleteMembershipDetails_Result">
+          <Property Type="Int32" Name="Status" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="MemberRegister">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ZipCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nationality" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReferredBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ImagePath" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="MembershipCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="MembershipName" Type="Int32" Nullable="false" />
+          <Property Name="CardNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="MemberCode1" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="MembershipEndDate" Type="DateTime" Precision="3" />
+          <Property Name="Fees" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreditLimit" Type="Int32" />
+          <Property Name="AvailableCredit" Type="Int32" />
+          <Property Name="TotalTaxAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NetAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AmountPaid" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="DeletedBy" Type="Int32" />
+          <Property Name="DeletedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="MemberCode2" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FamilyMembers" Relationship="MembershipModel.FK_FamilyMember_MemberRegister" FromRole="MemberRegister" ToRole="FamilyMember" />
+          <NavigationProperty Name="MembershipCategory" Relationship="MembershipModel.FK_MemberRegister_MembershipCategory" FromRole="MemberRegister" ToRole="MembershipCategory" />
+        </EntityType>
+        <Association Name="FK_FamilyMember_MemberRegister">
+          <End Type="MembershipModel.MemberRegister" Role="MemberRegister" Multiplicity="1" />
+          <End Type="MembershipModel.FamilyMember" Role="FamilyMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MemberRegister">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FamilyMember">
+              <PropertyRef Name="MemberRegisterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberRegister_MembershipCategory">
+          <End Type="MembershipModel.MembershipCategory" Role="MembershipCategory" Multiplicity="1" />
+          <End Type="MembershipModel.MemberRegister" Role="MemberRegister" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MembershipCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MemberRegister">
+              <PropertyRef Name="MembershipCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MasterBloodGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BloodGroup" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="DeletedBy" Type="Int32" />
+          <Property Name="DeletedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="FamilyMembers" Relationship="MembershipModel.FK_FamilyMember_MasterBloodGroup" FromRole="MasterBloodGroup" ToRole="FamilyMember" />
+        </EntityType>
+        <Association Name="FK_FamilyMember_MasterBloodGroup">
+          <End Type="MembershipModel.MasterBloodGroup" Role="MasterBloodGroup" Multiplicity="1" />
+          <End Type="MembershipModel.FamilyMember" Role="FamilyMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterBloodGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FamilyMember">
+              <PropertyRef Name="BloodGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblActerActressList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StarName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StarType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ImagePath" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="spGetActorActressImageDetails_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="StarName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="StarType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ImagePath" Nullable="true" MaxLength="200" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MembershipModelStoreContainer" CdmEntityContainer="MembershipCatEntities" >
+          <FunctionImportMapping FunctionImportName="AddUpdateDeleteMembershipCategory" FunctionName="MembershipModel.Store.AddUpdateDeleteMembershipCategory" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MembershipModel.AddUpdateDeleteMembershipCategory_Result">
+                <ScalarProperty Name="result" ColumnName="result" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMembeshipCategoryAndDuration" FunctionName="MembershipModel.Store.GetMembeshipCategoryAndDuration">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MembershipModel.GetMembeshipCategoryAndDuration_Result">
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMembeshipDetails" FunctionName="MembershipModel.Store.GetMembeshipDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MembershipModel.GetMembeshipDetails_Result">
+                <ScalarProperty Name="Fees" ColumnName="Fees" />
+                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMasterTypes" FunctionName="MembershipModel.Store.GetMasterTypes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MembershipModel.GetMasterTypes_Result">
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="FamilyMembers">
+            <EntityTypeMapping TypeName="MembershipModel.FamilyMember">
+              <MappingFragment StoreEntitySet="FamilyMember">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DeletedOn" ColumnName="DeletedOn" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="MemberRegisterId" ColumnName="MemberRegisterId" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="CardNo" ColumnName="CardNo" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="MaritalStatus" ColumnName="MaritalStatus" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Relation" ColumnName="Relation" />
+                <ScalarProperty Name="BloodGroupId" ColumnName="BloodGroupId" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MembershipCategories">
+            <EntityTypeMapping TypeName="MembershipModel.MembershipCategory">
+              <MappingFragment StoreEntitySet="MembershipCategory">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DeletedOn" ColumnName="DeletedOn" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryType" ColumnName="CategoryType" />
+                <ScalarProperty Name="MembershipName" ColumnName="MembershipName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MembershipBenefits">
+            <EntityTypeMapping TypeName="MembershipModel.MembershipBenefit">
+              <MappingFragment StoreEntitySet="MembershipBenefit">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DeletedOn" ColumnName="DeletedOn" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="MaxChild" ColumnName="MaxChild" />
+                <ScalarProperty Name="MaxAdult" ColumnName="MaxAdult" />
+                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
+                <ScalarProperty Name="Fees" ColumnName="Fees" />
+                <ScalarProperty Name="DurationId" ColumnName="DurationId" />
+                <ScalarProperty Name="MembershipCategoryId" ColumnName="MembershipCategoryId" />
+                <ScalarProperty Name="MemberPrefixCode" ColumnName="MemberPrefixCode" />
+                <ScalarProperty Name="MembershipName" ColumnName="MembershipName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MembershipDurations">
+            <EntityTypeMapping TypeName="MembershipModel.MembershipDuration">
+              <MappingFragment StoreEntitySet="MembershipDuration">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DeletedOn" ColumnName="DeletedOn" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="DurationDays" ColumnName="DurationDays" />
+                <ScalarProperty Name="DurationName" ColumnName="DurationName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spDeleteMembershipDetails" FunctionName="MembershipModel.Store.spDeleteMembershipDetails" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MembershipModel.spDeleteMembershipDetails_Result">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="MemberRegisters">
+            <EntityTypeMapping TypeName="MembershipModel.MemberRegister">
+              <MappingFragment StoreEntitySet="MemberRegister">
+                <ScalarProperty Name="MemberCode2" ColumnName="MemberCode2" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DeletedOn" ColumnName="DeletedOn" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
+                <ScalarProperty Name="NetAmount" ColumnName="NetAmount" />
+                <ScalarProperty Name="TotalTaxAmount" ColumnName="TotalTaxAmount" />
+                <ScalarProperty Name="AvailableCredit" ColumnName="AvailableCredit" />
+                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
+                <ScalarProperty Name="Fees" ColumnName="Fees" />
+                <ScalarProperty Name="MembershipEndDate" ColumnName="MembershipEndDate" />
+                <ScalarProperty Name="MemberCode1" ColumnName="MemberCode1" />
+                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+                <ScalarProperty Name="MembershipName" ColumnName="MembershipName" />
+                <ScalarProperty Name="MembershipCategoryId" ColumnName="MembershipCategoryId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="ReferredBy" ColumnName="ReferredBy" />
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MasterBloodGroups">
+            <EntityTypeMapping TypeName="MembershipModel.MasterBloodGroup">
+              <MappingFragment StoreEntitySet="MasterBloodGroup">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DeletedOn" ColumnName="DeletedOn" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblActerActressLists">
+            <EntityTypeMapping TypeName="MembershipModel.tblActerActressList">
+              <MappingFragment StoreEntitySet="tblActerActressList">
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="StarType" ColumnName="StarType" />
+                <ScalarProperty Name="StarName" ColumnName="StarName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spGetActorActressImageDetails" FunctionName="MembershipModel.Store.spGetActorActressImageDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MembershipModel.spGetActorActressImageDetails_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StarName" ColumnName="StarName" />
+                <ScalarProperty Name="StarType" ColumnName="StarType" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InsertUpdateFamilyMemberDetails" FunctionName="MembershipModel.Store.InsertUpdateFamilyMemberDetails" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MembershipModel.InsertUpdateFamilyMemberDetails_Result">
+                <ScalarProperty Name="result" ColumnName="result" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InsertUpdateMemberDetails" FunctionName="MembershipModel.Store.InsertUpdateMemberDetails" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MembershipModel.InsertUpdateMemberDetails_Result">
+                <ScalarProperty Name="result" ColumnName="result" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

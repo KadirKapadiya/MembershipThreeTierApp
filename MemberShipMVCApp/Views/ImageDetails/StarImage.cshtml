@@ -1,0 +1,267 @@
+﻿@model WebAPI_Basic.Models.Image
+
+@{
+    ViewBag.Title = "StarImage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var selectedSortType = "";
+    var currentPageNo = "";
+    var totalPage = 0;
+}
+
+
+<style type="text/css">
+    #Cartbl tr td {
+        border: 1px solid #808080;
+    }
+
+    .imagePreview {
+        float: left;
+        width: 90%;
+        padding: 5px 0 0 15px;
+        height: 55%;
+    }
+
+    .divPadding {
+        padding: 0 0px 10px 0;
+        float: left;
+    }
+    .divPagging {
+        padding: 5px 0 10px 0;
+        float: left;
+    }
+
+    .selectedButton {
+        background: #ff5f3b;
+    }
+
+    .spanName {
+        color: red;
+        margin-left: 15px;
+    }
+
+    .bodyBackColor {
+        background: #eae9e9;
+    }
+</style>
+
+<div class="row">
+    <div class="container bodyBackColor">
+        <h2>Actor Actresses</h2>
+        <div class="row">
+            <div class="container">
+                <div class="col-md-12 divPadding">
+                    <label>Total Count:<span id="spnTotalCount"></span></label>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-1 divPadding">
+                        <label>Sort By: </label>
+                    </div>
+                    <div class="col-md-1 divPadding">
+                        <input type="button" value="All" id="btnAll" title="All" onclick="All();" />
+                    </div>
+                    <div class="col-md-1 divPadding">
+                        <input type="button" value="A-Z" id="btnAtoZ" title="A-Z" onclick="AtoZ();" />
+                    </div>
+                    <div class="col-md-1 divPadding">
+                        <input type="button" value="Actor" id="btnActor" title="Actor" onclick="Actor();" />
+                    </div>
+                    <div class="col-md-1 divPadding">
+                        <input type="button" value="Actress" id="btnActress" title="Actress" onclick="Actress();" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container">
+                <table id="Cartbl" style="width:71%;"></table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="container">
+                <div class="col-md-3 divPagging" id="divPrevious">
+                    <input type="button" class="selectedButton" id="btnPrevious" title="Previous" value="Previous" onclick="Previous();" />
+                </div>
+                <div class="col-md-5 divPagging" id="divPaging">
+
+                </div>
+                <div class="col-md-3 divPagging" id="divNext">
+                    <input type="button" class="selectedButton" id="btnNext" title="Next" value="Next" onclick="Next();" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#btnAll").addClass("selectedButton");
+        selectedSortType = '@WebAPI_Basic.Common.Constant.PAGE_ALL';
+        GetImageList('@WebAPI_Basic.Common.Constant.PAGE_LIST', selectedSortType, 1);
+
+        currentPageNo = 1;
+    });
+
+    function GetImageList(type, selectedSortType, pNo) {
+        var id = 1;
+        $.ajax({
+            type: "GET",
+            url: "/api/ImageDetails/GetAllImageDetails/", //URI
+            data: { searchType: type, sortType: selectedSortType, pageNo: pNo },
+            dataType: "json",
+            success: function (data) {
+                //var datadatavalue = data;
+                //debugger;
+                var count = parseInt(1);
+                var HTML = '';
+                var aHREF = '';
+                var totalTr = '';
+                var totalTd = '';
+                debugger;
+                if (parseInt(data.length) > 5) {
+                    totalTr = parseInt((parseInt(data.length) - 1) / '@WebAPI_Basic.Common.Constant.PER_PAGE_ROW');
+                    totalTd = parseInt('@WebAPI_Basic.Common.Constant.PER_ROW_IMAGE');
+                }
+                else {
+                    totalTr = parseInt(1);
+                    totalTd = parseInt('@WebAPI_Basic.Common.Constant.PER_ROW_IMAGE');
+                }
+
+                contentType: "application/json";
+
+                var TotalCount = data[0]["TotalCount"];
+                $("#spnTotalCount").html(TotalCount);
+
+                totalPage = Math.ceil(parseInt(TotalCount) / '@WebAPI_Basic.Common.Constant.PAGE_NO');
+
+                for (var i = 0; i < totalTr; i++) {
+                    HTML += '<tr>';
+                    for (var j = 0; j < totalTd; j++) {
+
+                        if (data[count] != null) {
+                            HTML += '<td width="150px"><img style="display:block;" class= "imagePreview" src="../Content/StarImage/' + data[count].ImagePath + '" /><span class = "spanName">' + data[count].StarName + '</span></td>';
+                        }
+                        else {
+                            HTML += '<td width="150px"><span class = "spanName"></span></td>';
+                        }
+                        count += 1;
+                    }
+                    HTML += '</tr>';
+                }
+
+                $("#Cartbl").html(HTML);
+
+                //For display pagging number
+                for (var i = 1; i <= totalPage; i++) {
+                    if (i == parseInt(pNo)) {
+                        aHREF += '<input type="button" class= "selectedButton" id="btnPage_' + i + '" value="' + i + '" onclick = "Pagging(' + i + ');" />';
+                    }
+                    else {
+                        aHREF += '<input type="button" id="btnPage_' + i + '" value="' + i + '" onclick = "Pagging(' + i + ');" />';
+                    }
+                }
+
+                $("#divPaging").html(aHREF);
+
+                //$.each(datadatavalue, function (i, mobj) {
+
+                //    var HTML = '<tr>';
+
+                //    HTML += '<td width="150px">' + mobj.StarName + '</td>';
+                //    //HTML += '<td width = "100px">' + mobj.StarType + '</td>';
+                //    //HTML += '<td width = "50px">' + mobj.ImagePath + '</td>';
+                //    //HTML += '<td width="50px" style = "display: none;">' + mobj.ImageId + '</td></tr>';
+
+                //    HTML = '</tr>'
+                //    $("#Cartbl").append(HTML);
+
+
+                //    //$("#Cartbl").append('<tr><td width="150px">' + mobj.StarName + '</td>' +
+                //    //    '<td width = "100px">' + mobj.StarType + '</td>' +
+                //    //    '<td width = "50px">' + mobj.ImagePath + '</td>' +
+                //    //    '<td width="50px" style = "display: none;">' + mobj.ImageId + '</td></tr>');
+
+                //});
+
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            }
+        });
+
+    }
+    function Pagging(pNo) {
+        GetImageList('@WebAPI_Basic.Common.Constant.PAGING', selectedSortType, pNo);
+
+        currentPageNo = pNo;
+    }
+
+    function All() {
+        $("#btnAtoZ").removeClass("selectedButton");
+        $("#btnActress").removeClass("selectedButton");
+        $("#btnActor").removeClass("selectedButton");
+
+        $("#btnAll").addClass("selectedButton");
+
+        selectedSortType = '@WebAPI_Basic.Common.Constant.PAGE_ALL';
+        GetImageList('@WebAPI_Basic.Common.Constant.PAGE_LIST', selectedSortType, 1);
+        currentPageNo = 1;
+    }
+    function AtoZ() {
+        $("#btnAll").removeClass("selectedButton");
+        $("#btnActress").removeClass("selectedButton");
+        $("#btnActor").removeClass("selectedButton");
+
+        $("#btnAtoZ").addClass("selectedButton");
+        selectedSortType = '@WebAPI_Basic.Common.Constant.PAGE_ATOZ';
+        GetImageList('@WebAPI_Basic.Common.Constant.PAGE_ATOZ', selectedSortType, 1);
+
+        currentPageNo = 1;
+    }
+
+    function Actor() {
+        $("#btnAll").removeClass("selectedButton");
+        $("#btnAtoZ").removeClass("selectedButton");
+        $("#btnActress").removeClass("selectedButton");
+
+        $("#btnActor").addClass("selectedButton");
+
+        selectedSortType = "Actor";
+        GetImageList("Actor", selectedSortType, 1);
+        currentPageNo = 1;
+    }
+
+    function Actress() {
+        $("#btnAll").removeClass("selectedButton");
+        $("#btnAtoZ").removeClass("selectedButton");
+        $("#btnActor").removeClass("selectedButton");
+
+        $("#btnActress").addClass("selectedButton");
+
+        selectedSortType = "Actress";
+        GetImageList("Actress", selectedSortType, 1);
+
+        currentPageNo = 1;
+    }
+    function Next() {
+        var pNo = parseInt(currentPageNo) + 1;
+
+        if (pNo <= parseInt(totalPage)) {
+            GetImageList('@WebAPI_Basic.Common.Constant.PAGING', selectedSortType, pNo);
+            currentPageNo = pNo;
+        }
+    }
+
+    function Previous() {
+        //alert(currentPageNo);
+        if (currentPageNo > 1) {
+            var pNo = parseInt(currentPageNo) - 1;
+            GetImageList('@WebAPI_Basic.Common.Constant.PAGING', selectedSortType, pNo);
+            currentPageNo = pNo;
+        }
+    }
+</script>
+

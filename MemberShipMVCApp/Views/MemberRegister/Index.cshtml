@@ -1,0 +1,879 @@
+﻿@model MemberShipMVCApp.ViewModel.MemberRegisterViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Member Register</h2>
+<style type="text/css">
+    .headerTitle {
+        margin: 15px 0 15px 0;
+    }
+
+    .marginBottom {
+        margin-bottom: 10px;
+    }
+
+    .marginTop {
+        margin-top: 40px;
+    }
+
+    .spanRed {
+        color: red;
+    }
+
+    .borderBottom {
+        border-bottom: 1px solid #dad5d5;
+    }
+
+    .noPadding {
+        padding: 0;
+    }
+
+    .fieldWidth {
+        width: 80px;
+    }
+
+    .paddingMargin {
+        padding: 0;
+        margin-left: 15px;
+    }
+
+    #tblFamilyInfo input {
+        float: left;
+        width: 10%;
+    }
+
+    #divFamilyInfo label {
+        float: left;
+        width: 10%;
+    }
+
+    .redBorder {
+        border-color: red;
+    }
+
+    .blackBorder {
+        border-color: #333333;
+    }
+    .messageDiv {
+        padding: 10px 0 10px 6px;
+        background: #9deace;
+        border-radius: 2px;
+    }
+</style>
+@*<link href="@Url.Content("~/Content/themes/base/core.css")"
+          rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/base/datepicker.css")"
+          rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/base/theme.css")"
+          rel="stylesheet" type="text/css" />
+
+    <script src="@Url.Content("~/Scripts/jquery.ui.core.min.js")"
+            type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.ui.datepicker.min.js")"
+            type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/DatePickerReady.js")"
+            type="text/javascript"></script>*@
+<div class="row">
+    <div class="col-md-12 messageDiv" style="display:none;">
+        @if (Model.message != null)
+        {
+            <div>@Model.message</div>
+        }
+    </div>
+</div>
+@using (Html.BeginForm("Index", "MemberRegister", FormMethod.Post, new { @id = "MemberRegisterForm", @name = "MemberRegisterForm", enctype = "multipart/form-data", onsubmit = "return SaveMemberShipDetails()" }))
+{
+    @Html.HiddenFor(x => x.MembershipTypeId, new { @id = "hdnMembershipTypeId" })
+    @Html.HiddenFor(x => x.FamilyMemberCount, new { @id = "hdnFamilyMemberCount" })
+    <input type="hidden" id="hdnFamilyPhotoPath" />
+    
+    <div class="row">
+        <div class="row borderBottom">
+            <div class="row headerTitle">
+                <div class="col-md-8">
+                    <label><u>Personal Info</u></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>First Name <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.FirstName, new { @id = "txtFirstName", @maxlength = "15", @tabindex = 1 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Last Name <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.LastName, new { @id = "txtLastName", @maxlength = "15", @tabindex = 2 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Address <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextAreaFor(x => x.Address, new { @id = "txtAddress", @maxlength = "100", @tabindex = 3 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Zip Code <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.ZipCode, new { @id = "txtZipCode", @maxlength = "10", @tabindex = 4 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>City <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.City, new { @id = "txtCity", @maxlength = "15", @tabindex = 5 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>State <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.State, new { @id = "txtState", @maxlength = "15", @tabindex = 6 })
+                        </div>
+                    </div>
+
+                    @*<div class="col-md-10">
+                            <div class="col-md-6">
+                                <label>Membership Category <span class="spanRed">*</span></label>
+                            </div><div class="col-md-6 marginBottom">
+                                @Html.DropDownListFor(x => x.MembershipCategoryId, Model.MembershipCategoryList, new { @id = "ddlMembershipCategoryList", @tabindex = 12 })
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="col-md-6">
+                                <label>Duration <span class="spanRed">*</span></label>
+                            </div><div class="col-md-6 marginBottom">
+                                @Html.DropDownListFor(x => x.DurationId, Model.DurationList, new { @id = "ddlDurationList", @tabindex = 13 })
+                            </div>
+                        </div>*@
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Country <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.DropDownListFor(x => x.Country, Model.CountryList, new { @id = "ddlCountryList", @tabindex = 7 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Gender <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.DropDownListFor(x => x.Gender, Model.GenderList, new { @id = "ddlGenderList", @tabindex = 8 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Comments </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextAreaFor(x => x.Comment, new { @id = "txtComment", @maxlength = "100", @tabindex = 9 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Category <span class="spanRed">*</span></label>
+                        </div><div class="col-md-4 marginBottom">
+                            @Html.DropDownListFor(x => x.CategoryTypeId, Model.CategoryType, new { @id = "ddlCategoryType", @tabindex = 10 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Nationality </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.Nationality, new { @id = "txtNationality", @maxlength = "10", @tabindex = 11 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Referred By </label>
+                        </div><div class="col-md-4 marginBottom">
+                            @Html.DropDownListFor(x => x.Referred, Model.ReferredList, new { @id = "ddlReferredList", @tabindex = 12 })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            @Html.LabelFor(x => x.File, "Photo")
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.File, new { type = "file" })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Is Active </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.CheckBoxFor(m => m.IsActive, new { @id = "chkIsActive", @checked = "checked", @tabindex = 13 })
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row borderBottom">
+            <div class="row headerTitle">
+                <div class="col-md-8">
+                    <label><u>Membership Info</u></label>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Membership Category <span class="spanRed">*</span></label>
+                    </div><div class="col-md-4 marginBottom">
+                        @Html.DropDownListFor(x => x.MembershipCategoryId, Model.MembershipCategoryList, new { @id = "ddlMembershipCategoryList", @onchange = "FetchMembershipType();", @tabindex = 14 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Membership Name <span class="spanRed">*</span></label>
+                    </div><div class="col-md-4 marginBottom divMembershipType">
+                        @Html.DropDownListFor(x => x.MembershipTypeId, Model.MembershipNameList, new { @id = "ddlMembershipTypeList", @tabindex = 15 })
+                    </div>
+                </div>
+
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Card Number <span class="spanRed">*</span></label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.CardNumber, new { @id = "txtCardNumber", @maxlength = "10", @tabindex = 16 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Member Code </label>
+                    </div>
+                    <div class="col-md-6 marginBottom">
+                        <div class="col-md-2 marginBottom noPadding">
+                            @Html.TextBoxFor(x => x.MemberCode1, new { @class = "fieldWidth", @id = "txtMemberCode1", @maxlength = "3", @tabindex = 17 })
+                        </div>
+                        <div class="col-md-2 marginBottom paddingMargin">
+                            @Html.TextBoxFor(x => x.MemberCode2, new { @class = "fieldWidth", @id = "txtMemberCode2", @maxlength = "5", @tabindex = 18 })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Membership End Date </label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.MembershipEndDate, new { @id = "txtMembershipEndDate", @class = "datepicker", @maxlength = "10", @tabindex = 19 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Fees </label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.Fees, new { @id = "txtFees", @readonly = "readonly", @maxlength = "10", @tabindex = 20 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Credit Limit </label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.CreditLimit, new { @id = "txtCreditLimit", @readonly = "readonly", @maxlength = "10", @tabindex = 21 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Available Credit </label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.AvailableCredit, new { @id = "txtAvailableCredit", @maxlength = "10", @tabindex = 22 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Total Tax Amount </label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.TotalTaxAmount, new { @id = "txtTotalTaxAmount", @maxlength = "10", @tabindex = 23 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Net Amount </label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.NetAmount, new { @id = "txtNetAmount", @maxlength = "10", @tabindex = 24 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Amount Paid</label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.AmountPaid, new { @id = "txtAmountPaid", @maxlength = "10", @tabindex = 25 })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row borderBottom">
+            <div class="row headerTitle">
+                <div class="col-md-8">
+                    <label><u>Family Information</u></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Name <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.Name, new { @id = "txtName", @maxlength = "15", @tabindex = 26 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Birth Date <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.BirthDate, new { @id = "txtBirthDate", @class = "datepicker2", @tabindex = 27 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Category <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.DropDownListFor(x => x.FamilyCategoryTypeId, Model.CategoryType, new { @id = "ddlFamilyMemberCategoryList", @tabindex = 28 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Blood Group </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.DropDownListFor(x => x.BloodGroupId, Model.BloodGroupList, new { @id = "ddlBloodGroupList", @tabindex = 29 })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Relation </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.Relation, new { @id = "txtRelation", @maxlength = "10", @tabindex = 30 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Contact No </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.ContactNo, new { @id = "txtContactNo", @maxlength = "13", @tabindex = 31 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Email </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.Email, new { @id = "txtEmail", @maxlength = "50", @tabindex = 32 })
+                        </div>
+                    </div>
+                    <div class="col-md-10" style="width: 100%;">
+                        <div class="col-md-5">
+                            <label>Marital Status </label>
+                        </div>
+                        <div class="col-md-7 marginBottom">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @Html.RadioButtonFor(x => x.MaritulStatus, 1, new { id = "rbSingle", @tabindex = 33 })
+                                    @Html.Label("rbSingle", "Single")
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.RadioButtonFor(x => x.MaritulStatus, 2, new { id = "rbMarried", @tabindex = 34 })
+                                    @Html.Label("rbMarried", "Married")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Age </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.Age, new { @id = "txtAge", @maxlength = "3", @tabindex = 35 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Card No <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.FamilyCardNumber, new { @id = "txtFamilyCardNumber", @maxlength = "10", @tabindex = 36 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            @Html.LabelFor(x => x.File2, "Photo")
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.File2, new { type = "file", @id = "fupload", onchange = "previewFile();" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row marginBottom">
+                <div class="col-md-4"></div><div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <input type="button" id="btnAddFamily" value="Add" onclick="AddFamilyMemberDetails();" tabindex="36" style="float: right;" />
+                </div>
+            </div>
+
+            <div class="row" id="divFamilyInfo" style="display:none;">
+                <div style="float:left; width:100%;">
+                    <label style="width:12%;">Name</label>
+                    <label style="width:7%;">Birth Date</label>
+                    <label style="width:6%;">Category</label>
+                    <label style="width:4%;">Blood Group</label>
+                    <label style="width:5%;">Relation</label>
+                    <label style="width:8%;">Contact No</label>
+                    <label style="width:11%;">Email</label>
+                    <label style="width:6%;">Marital Status</label>
+                    <label style="width:4%;">Age</label>
+                    <label>Card No</label>
+                    <label style="width:15%;">Photo</label>
+                </div>
+                <div id="tblFamilyInfo" style="float:left; width:100%;">
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-8 marginBottom marginTop">
+            <div class="col-md-4">
+                <input type="submit" id="btnMBenefitSave" title="Save" value="Save" taabindex="37" />
+            </div><div class="col-md-4">
+                <input type="button" id="btnMBenefitClose" title="Back" onclick="Back();" value="Back" tabindex="38" />
+            </div>
+        </div>
+    </div>
+}
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+@section Scripts {
+<script type="text/javascript">
+        var str = "";
+
+        $(document).ready(function () {
+            $("#txtFees").val("");
+            $("#txtCreditLimit").val("");
+            $("#txtAvailableCredit").val("");
+            $("#txtTotalTaxAmount").val("");
+
+            $("#txtNetAmount").val("");
+            $("#txtAmountPaid").val("");
+
+            $("#txtBirthDate").val("");
+            $("#txtAge").val("");
+            $("#txtMembershipEndDate").val("");
+
+            $(".datepicker").datepicker({
+                format: 'mm/dd/yyyy'
+            });
+            $(".datepicker2").datepicker({
+                format: 'mm/dd/yyyy'
+            });
+        });
+
+        $("input[type=file]").on("change", function () {
+            //alert(this.files[0].name);
+
+            $("[for=file]").html(this.files[0].name);
+            //alert(this.files[0]);
+
+            $("#preview").attr("src", URL.createObjectURL(this.files[0]));
+            str = URL.createObjectURL(this.files[0]);
+        });
+
+        function Back()
+        {
+            var path = '@Url.Action("Dashboard", "Membership")';
+
+            window.location.href = path;
+        }
+
+        if ('@Model.message' != "") {
+            $(".messageDiv").show();
+            setTimeout(function () {
+                $(".messageDiv").hide();
+            }, 8000);
+        }
+
+        function FetchMembershipType() {
+            var selectedCategory = parseInt($("#ddlMembershipCategoryList").val());
+
+            $.ajax({
+                type: "POST",
+                    /**/
+                url: '@Url.Action("FetchMembershipType", "MemberRegister")',
+                /**/
+                data: { SelectedMembershipCategory: selectedCategory },
+                success: function (data) {
+                    $(".divMembershipType").html("");
+                    $(".divMembershipType").html(data);
+                }
+            });
+        }
+
+        function FetchMembershipDetails() {
+            var selectedCategory = parseInt($("#ddlMembershipCategoryList").val());
+            var selectedMembershipType = parseInt($("#ddlMembershipTypeList").val());
+
+            $("#hdnMembershipTypeId").val("");
+
+            $.ajax({
+                type: "POST",
+                /**/
+                url: '@Url.Action("FetchMembershipDetails", "MemberRegister")',
+                /**/
+                data: { SelectedMembershipCategory: selectedCategory, SelectedMembershipType: selectedMembershipType },
+                success: function (data) {
+
+                    $("#txtFees").val(data[0]["Fees"]);
+                    $("#txtCreditLimit").val(data[0]["CreditLimit"]);
+
+                    $("#hdnMembershipTypeId").val(selectedMembershipType);
+                }
+            });
+        }
+
+        function SaveMemberShipDetails() {
+            var flag = false;
+
+            //Personal Info values
+            var txtFirstName = $("#txtFirstName").val();
+            var txtLastName = $("#txtLastName").val();
+            var txtAddress = $("#txtAddress").val();
+            var txtZipCode = $("#txtZipCode").val();
+            var txtCity = $("#txtCity").val();
+            var txtState = $("#txtState").val();
+            var selectedCountry = $("#ddlCountryList option:selected").val();
+            var selectedGender = $("#ddlGenderList option:selected").val();
+            var txtComment = $("#txtComment").val();
+            var selectedCategory = $("#ddlCategoryType option:selected").val();
+            var txtNationality = $("#txtNationality").val();
+            var selectedReferred = $("#ddlReferredList option:selected").val();
+
+            //imageUpload
+
+            var isChecked = false;
+            if ($("#chkIsActive").is(":checked")) {
+                isChecked = true;
+            }
+            var chkIsActive = isChecked;
+
+            //check mandatory fields validation
+            if (txtFirstName == "") {
+                alert("FirstName is Mandatory");
+                document.getElementById("txtFirstName").focus();
+                return false;
+            }
+
+            if (txtLastName == "") {
+                alert("LastName is Mandatory");
+                document.getElementById("txtLastName").focus();
+                return false;
+            }
+
+            if (txtAddress == "") {
+                alert("Address is Mandatory");
+                document.getElementById("txtAddress").focus();
+                return false;
+            }
+
+            if (txtZipCode == "") {
+                alert("ZipCode is Mandatory");
+                document.getElementById("txtZipCode").focus();
+                return false;
+            }
+
+            if (txtCity == "") {
+                alert("City is Mandatory");
+                document.getElementById("txtCity").focus();
+                return false;
+            }
+
+            if (txtState == "") {
+                alert("State is Mandatory");
+                document.getElementById("txtState").focus();
+                return false;
+            }
+
+            if (selectedCountry == "0")
+                selectedCountry = "";
+            if (selectedCountry == "") {
+                alert("Country is Mandatory");
+                document.getElementById("ddlCountryList").focus();
+                return false;
+            }
+
+            if (selectedGender == "0")
+                selectedGender = "";
+            if (selectedGender == "") {
+                alert("Gender is Mandatory");
+                document.getElementById("ddlGenderList").focus();
+                return false;
+            }
+
+            if (selectedCategory == "0")
+                selectedCategory = "";
+            if (selectedCategory == "") {
+                alert("Category is Mandatory");
+                document.getElementById("ddlCategoryType").focus();
+                return false;
+            }
+
+            //Membership Info values
+            var selectedMembershipCategory = $("#ddlMembershipCategoryList option:selected").val();
+            var selectedMembershipType = $("#ddlMembershipTypeList option:selected").val();
+            var txtCardNumber = $("#txtCardNumber").val();
+            var txtMemberCode1 = $("#txtMemberCode1").val();
+            var txtMemberCode2 = $("#txtMemberCode2").val();
+            var txtMembershipEndDate = $("#txtMembershipEndDate").val();
+            var txtFees = $("#txtFees").val();
+            var txtCreditLimit = $("#txtCreditLimit").val();
+            var txtAvailableCredit = $("#txtAvailableCredit").val();
+            var txtTotalTaxAmount = $("#txtTotalTaxAmount").val();
+            var txtNetAmount = $("#txtNetAmount").val();
+            var txtAmountPaid = $("#txtAmountPaid").val();
+
+            if (selectedMembershipCategory == "0")
+                selectedMembershipCategory = "";
+            if (selectedMembershipCategory == "") {
+                alert("Membership Category is Mandatory");
+                document.getElementById("ddlMembershipCategoryList").focus();
+                return false;
+            }
+
+            if (selectedMembershipType == "0")
+                selectedMembershipType = "";
+            if (selectedMembershipType == "") {
+                alert("Membership Name is Mandatory");
+                document.getElementById("ddlMembershipTypeList").focus();
+                return false;
+            }
+
+            if (txtCardNumber == "") {
+                alert("Card Number is Mandatory");
+                document.getElementById("txtCardNumber").focus();
+                return false;
+            }
+
+            //Family Info values
+            var txtName = $("#txtName").val();
+            var txtBirthDate = $("#txtBirthDate").val();
+            var selectedFamilyMemberCategoryList = $("#ddlFamilyMemberCategoryList option:selected").val();
+            var selectedBloodGroup = $("#ddlBloodGroupList option:selected").val();
+            var txtRelation = $("#txtRelation").val();
+            var txtContactNo = $("#txtContactNo").val();
+            var txtEmail = $("#txtEmail").val();
+            var rbMaritalStatus = $("input[name='rbMaritalStatus']:checked").val();
+            var txtAge = $("#txtAge").val();
+            var txtFamilyCardNumber = $("#txtFamilyCardNumber").val();
+            //Image
+            //debugger;
+            //if (!flag) {
+                var rowCount = $('#tblFamilyInfo >div').length;
+                $("#hdnFamilyMemberCount").val(parseInt(rowCount));
+
+
+            //    $('#MemberRegisterForm').submit(function (ev) {
+            //        ev.preventDefault(); // to stop the form from submitting
+            //        /* Validations go here */
+            //        this.submit(); // If all the validations succeeded
+            //    });
+            //}
+
+            @*var model = {
+                FirstName: txtFirstName,
+                LastName: txtLastName,
+                Address: txtAddress,
+                ZipCode: txtZipCode,
+                City: txtCity,
+                State: txtState,
+                CardNumber: txtCardNumber,
+                Country: selectedCountry,
+                Gender: selectedGender,
+                CategoryTypeId: selectedCategory,
+                MembershipCategoryId: selectedMembershipCategory,
+                MembershipName: selectedMembershipType,
+                Name: txtName,
+                BirthDate: txtBirthDate,
+                FamilyCategoryTypeId: selectedFamilyMemberCategoryList,
+                FamilyCardNumber: txtFamilyCardNumber
+            };
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("RegisterMemberDetails", "MemberRegister")',
+                data: model,
+                success: function (data) {
+                    alert(data.toString());
+
+                    //$("#txtMembershipBenefitName").val("");
+                    //$("#txtMembershipPrefixCode").val("");
+                    //$("#ddlMembershipCategoryList option:first").prop("selected", "selected");
+                    //$("#ddlDurationList option:first").prop("selected", "selected");
+                    //$("#txtFees").val("");
+                    //$("#txtFees").attr("placeholder", "0.00");
+                    //$("#txtCreditLimit").val("");
+                    //$("#txtMaxAdult").val("");
+                    $("#txtFirstName").val("");
+
+                    document.getElementById("txtFirstName").focus();
+                }
+            });*@
+        }
+
+        function AddFamilyMemberDetails() {
+
+            //Family Info values
+            var txtName = $("#txtName").val();
+            var txtBirthDate = $("#txtBirthDate").val();
+            var selectedFamilyMemberCategoryList = $("#ddlFamilyMemberCategoryList option:selected").val();
+            var selectedBloodGroup = $("#ddlBloodGroupList option:selected").val();
+            var txtRelation = $("#txtRelation").val();
+            var txtContactNo = $("#txtContactNo").val();
+            var txtEmail = $("#txtEmail").val();
+
+            var rbMaritalStatus = $('form input[type=radio]:checked').val();
+            var maritalStatus = "";
+            if (rbMaritalStatus == "1")
+                maritalStatus = "Single";
+            else if (rbMaritalStatus == "2")
+                maritalStatus = "Married";
+
+            var txtAge = $("#txtAge").val();
+            var txtFamilyCardNumber = $("#txtFamilyCardNumber").val();
+
+            //check mandatory fields validation
+            if (txtName == "") {
+                alert("Name is Mandatory");
+                document.getElementById("txtName").focus();
+                return false;
+            }
+            if (txtBirthDate == "") {
+                alert("BirthDate is Mandatory");
+                document.getElementById("txtBirthDate").focus();
+                return false;
+            }
+
+            if (selectedFamilyMemberCategoryList == "0") {
+                selectedFamilyMemberCategoryList = "";
+            }
+            if (selectedFamilyMemberCategoryList == "") {
+                alert("Category is Mandatory");
+                document.getElementById("ddlFamilyMemberCategoryList").focus();
+                return false;
+            }
+
+            if (txtFamilyCardNumber == "") {
+                alert("Card No is Mandatory");
+                document.getElementById("txtFamilyCardNumber").focus();
+                return false;
+            }
+
+            //If blank than display N/A
+            if (selectedBloodGroup == "0")
+                selectedBloodGroup = "N/A";
+
+            if (txtRelation == "")
+                txtRelation = "N/A";
+
+            if (txtContactNo == "")
+                txtContactNo = "N/A";
+
+            if (txtEmail == "")
+                txtEmail = "N/A";
+
+            if (txtAge == "")
+                txtAge = "N/A";
+
+            var rowCount = $('#tblFamilyInfo >div').length;
+            rowCount += 1;
+
+            var HTML = "<div id = 'row_" + rowCount + "' style='float: left; width: 100 %;'>";
+            HTML += "<input type='text' style='width: 12%;' readonly = 'readonly' name = 'Name_" + rowCount + "' value = '" + txtName + "' />";
+            HTML += "<input type='text' style='width: 7%;' readonly = 'readonly' name = 'BirthDate_" + rowCount + "' value = '" + txtBirthDate + "' />";
+            HTML += "<input type='text' style='width: 6%;' readonly = 'readonly' name = 'FamilyMemberCategory_" + rowCount + "' value = '" + selectedFamilyMemberCategoryList + "' />";
+            HTML += "<input type='text' style='width: 4%;' readonly = 'readonly' name = 'BloodGroup_" + rowCount + "' value = '" + selectedBloodGroup + "' />";
+            HTML += "<input type='text' style='width: 5%;' readonly = 'readonly' name = 'Relation_" + rowCount + "' value = '" + txtRelation + "' />";
+            HTML += "<input type='text' style='width: 8%;' readonly = 'readonly' name = 'ContactNo_" + rowCount + "' value = '" + txtContactNo + "' />";
+            HTML += "<input type='text' style='width: 11%;' readonly = 'readonly' name = 'Email_" + rowCount + "' value = '" + txtEmail + "' />";
+            HTML += "<input type='text' style='width: 6%;' readonly = 'readonly' name = 'MaritalStatus_" + rowCount + "' value = '" + maritalStatus + "' />";
+            HTML += "<input type='text' style='width: 4%;' readonly = 'readonly' name = 'Age_" + rowCount + "' value = '" + txtAge + "' />";
+            HTML += "<input type='text' readonly = 'readonly' name = 'FamilyCardNumber_" + rowCount + "' value = '" + txtFamilyCardNumber + "' />";
+            //HTML += "<img id='imgPreview' style='width: 15%;height: 26px;' class = 'imgPreview_" + rowCount + "' />";
+            HTML += "<input type='hidden' readonly = 'readonly' id='hdnImgPreview_" + rowCount + "' name = 'FamilyPhoto_" + rowCount + "' value = '' /><a href = '' id='imgPreview' target = '_blank' style='width: 15%;height: 26px;' class = 'imgPreview_" + rowCount + "'>See Photo</a>";
+            HTML += "</div>";
+
+            $("#divFamilyInfo").show();
+
+            $('#tblFamilyInfo').append(HTML);
+
+            $(".imgPreview_" + rowCount).attr("href", str);
+            $("#hdnImgPreview_" + rowCount).val($("#hdnFamilyPhotoPath").val());
+
+            //$(".imgPreview_" + rowCount).attr("src", str);
+
+            //Clear field after add
+            $("#txtName").val("");
+            $("#txtBirthDate").val("");
+            $("#ddlFamilyMemberCategoryList option:first").prop("selected","selected");
+            $("#ddlBloodGroupList option:first").prop("selected", "selected");
+            $("#txtRelation").val("");
+            $("#txtContactNo").val("");
+            $("#txtEmail").val("");
+            $("#txtAge").val("");
+            $("#txtFamilyCardNumber").val("");
+        }
+
+        function previewFile() {
+
+            $("#hdnFamilyPhotoPath").val("");
+            if (window.FormData !== undefined) {
+
+                var fileUpload = $("#fupload").get(0);
+                var files = fileUpload.files;
+
+                // Create FormData object
+                var fileData = new FormData();
+
+                // Looping over all files and add it to FormData object
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                $.ajax({
+                    url: '@Url.Action("UploadFiles", "MemberRegister")',// '/MemberRegister/UploadFiles',
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        $("#hdnFamilyPhotoPath").val(result);
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+            } else {
+                alert("FormData is not supported.");
+            }
+        }
+
+</script>
+}
+

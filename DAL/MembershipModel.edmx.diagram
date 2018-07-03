@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bdcba8bee9db490b972c86a56f5ded97" Name="Diagram1" ZoomLevel="70" >
+        <EntityTypeShape EntityType="MembershipModel.FamilyMember" Width="1.5" PointX="3" PointY="2" />
+        <EntityTypeShape EntityType="MembershipModel.MembershipCategory" Width="1.5" PointX="0.75" PointY="10" />
+        <EntityTypeShape EntityType="MembershipModel.MembershipBenefit" Width="1.5" PointX="3" PointY="9.5" />
+        <EntityTypeShape EntityType="MembershipModel.MembershipDuration" Width="1.5" PointX="0.75" PointY="15.25" />
+        <AssociationConnector Association="MembershipModel.FK_MembershipBenefit_MembershipCategory" />
+        <AssociationConnector Association="MembershipModel.FK_MembershipBenefit_MembershipDuration" />
+        <EntityTypeShape EntityType="MembershipModel.MemberRegister" Width="1.5" PointX="3" PointY="14.75" />
+        <AssociationConnector Association="MembershipModel.FK_FamilyMember_MemberRegister" />
+        <AssociationConnector Association="MembershipModel.FK_MemberRegister_MembershipCategory" />
+        <EntityTypeShape EntityType="MembershipModel.MasterBloodGroup" Width="1.5" PointX="5.375" PointY="1" />
+        <AssociationConnector Association="MembershipModel.FK_FamilyMember_MasterBloodGroup" />
+        <EntityTypeShape EntityType="MembershipModel.tblActerActressList" Width="1.5" PointX="5.375" PointY="5.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

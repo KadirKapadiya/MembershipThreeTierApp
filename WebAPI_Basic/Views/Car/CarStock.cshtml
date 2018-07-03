@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "CarStock";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CarStock</h2>
+
+<table id="Cartbl"></table>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        GetImageList();
+    });
+
+    function GetImageList() {
+        var id = 1; 
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:51116/api/CarDetails/", //URI
+
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                var datadatavalue = data;
+
+
+
+
+                //var myJsonObject = datavalue;
+                contentType: "application/json";
+                $.each(datadatavalue, function (i, mobj) {
+                    debugger;
+                    $("#Cartbl").append('<tr><td width="50px">' + mobj.CarName +
+                        '</td><td width="50px">' + mobj.CarModel +
+                        '</td><td width="50px">' + mobj.CarPrice +
+                        '</td>' + '</td><td width="50px">'
+                        + mobj.CarColor + '</td></tr>');
+
+                });
+
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    }
+
+</script>
+

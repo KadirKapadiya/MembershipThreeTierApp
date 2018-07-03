@@ -1,0 +1,1186 @@
+﻿@model MemberShipMVCApp.ViewModel.MemberRegisterViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 1;
+}
+
+@*<h2>Edit</h2>*@
+
+<style type="text/css">
+    .headerTitle {
+        margin: 15px 0 15px 0;
+    }
+
+    .marginBottom {
+        margin-bottom: 10px;
+    }
+
+    .marginTop {
+        margin-top: 40px;
+    }
+
+    .spanRed {
+        color: red;
+    }
+
+    .borderBottom {
+        border-bottom: 1px solid #dad5d5;
+    }
+
+    .noPadding {
+        padding: 0;
+    }
+
+    .fieldWidth {
+        width: 80px;
+    }
+
+    .paddingMargin {
+        padding: 0;
+        margin-left: 15px;
+    }
+
+    #tblFamilyInfo input {
+        float: left;
+        width: 10%;
+    }
+
+    #divFamilyInfo label {
+        float: left;
+        width: 10%;
+    }
+
+    .redBorder {
+        border-color: red;
+    }
+
+    .blackBorder {
+        border-color: #333333;
+    }
+
+    .imgPhoto {
+        border: 1px solid #808080;
+        border-radius: 100px;
+        height: 150px;
+    }
+</style>
+
+@using (Html.BeginForm("Edit", "MemberRegister", FormMethod.Post, new { @id = "MemberRegisterForm", @name = "MemberRegisterForm", enctype = "multipart/form-data", onsubmit = "return SaveMemberShipDetails()" }))
+{
+    @Html.HiddenFor(x => x.MembershipTypeId, new { @id = "hdnMembershipTypeId" })
+    @Html.HiddenFor(x => x.FamilyMemberCount, new { @id = "hdnFamilyMemberCount" })
+
+    @Html.HiddenFor(x => x.Id, new { @id = "hdnMemberId" })
+
+    <input type="hidden" id="hdnFamilyPhotoPath" />
+
+    <input type="hidden" id="hdnName" />
+    <input type="hidden" id="hdnBirthDate" />
+    <input type="hidden" id="hdnCategoryTypeId" />
+    <input type="hidden" id="hdnBloodGroupName" />
+    <input type="hidden" id="hdnRelation" />
+    <input type="hidden" id="hdnContactNo" />
+    <input type="hidden" id="hdnEmail" />
+    <input type="hidden" id="hdnMaritulStatus" />
+    <input type="hidden" id="hdnAge" />
+    <input type="hidden" id="hdnFamilyCardNumber" />
+    <input type="hidden" id="hdnFamilyId" />
+
+    <div class="row">
+        <div class="col-md-8">
+            @if (Model.message != null)
+            {
+                <div>@Model.message</div>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="row borderBottom">
+            <div class="row headerTitle">
+                <div class="col-md-8">
+                    <label><u>Personal Info</u></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>First Name <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.FirstName, new { @id = "txtFirstName", @maxlength = "15", @tabindex = 1 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Last Name <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.LastName, new { @id = "txtLastName", @maxlength = "15", @tabindex = 2 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Address <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextAreaFor(x => x.Address, new { @id = "txtAddress", @maxlength = "100", @tabindex = 3 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Zip Code <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.ZipCode, new { @id = "txtZipCode", @maxlength = "10", @tabindex = 4 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>City <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.City, new { @id = "txtCity", @maxlength = "15", @tabindex = 5 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>State <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.State, new { @id = "txtState", @maxlength = "15", @tabindex = 6 })
+                        </div>
+                    </div>
+
+                    @*<div class="col-md-10">
+                            <div class="col-md-6">
+                                <label>Membership Category <span class="spanRed">*</span></label>
+                            </div><div class="col-md-6 marginBottom">
+                                @Html.DropDownListFor(x => x.MembershipCategoryId, Model.MembershipCategoryList, new { @id = "ddlMembershipCategoryList", @tabindex = 12 })
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="col-md-6">
+                                <label>Duration <span class="spanRed">*</span></label>
+                            </div><div class="col-md-6 marginBottom">
+                                @Html.DropDownListFor(x => x.DurationId, Model.DurationList, new { @id = "ddlDurationList", @tabindex = 13 })
+                            </div>
+                        </div>*@
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Country <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.DropDownListFor(x => x.Country, Model.CountryList, new { @id = "ddlCountryList", @tabindex = 7 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Gender <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.DropDownListFor(x => x.Gender, Model.GenderList, new { @id = "ddlGenderList", @tabindex = 8 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Comments </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextAreaFor(x => x.Comment, new { @id = "txtComment", @maxlength = "100", @tabindex = 9 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Category <span class="spanRed">*</span></label>
+                        </div><div class="col-md-4 marginBottom">
+                            @Html.DropDownListFor(x => x.CategoryTypeId, Model.CategoryType, new { @id = "ddlCategoryType", @tabindex = 10 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Nationality </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.Nationality, new { @id = "txtNationality", @maxlength = "10", @tabindex = 11 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Referred By </label>
+                        </div><div class="col-md-4 marginBottom">
+                            @Html.DropDownListFor(x => x.Referred, Model.ReferredList, new { @id = "ddlReferredList", @tabindex = 12 })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <div class="col-md-6 marginBottom" style="float:right;">                               
+                                <img class="imgPhoto" src="@Url.Content(String.Format("~/Content/Personal/"+ Model.imagePath1))" />
+                            </div>
+                        </div>                        
+                        <div class="col-md-10">
+                            <div class="col-md-6">
+                                @Html.LabelFor(x => x.File, "Photo")
+                            </div>
+                            <div class="col-md-6 marginBottom">
+                                @Html.TextBoxFor(x => x.File, new { type = "file" })
+                                @*@Html.HiddenFor(x => x.imagePath1, new { id = "hdnPhoto" })*@
+
+                                @*<img src="@Url.Content(String.Format(Model.imagePath1))" />*@
+
+                                @*<img class="imgPhoto" src="@Url.Content(String.Format("~/Content/Personal/"+ Model.imagePath1))" />*@
+
+                            </div>
+                        </div>                        
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Is Active </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.CheckBoxFor(m => m.IsActive, new { @id = "chkIsActive", @checked = "checked", @tabindex = 13 })
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row borderBottom">
+            <div class="row headerTitle">
+                <div class="col-md-8">
+                    <label><u>Membership Info</u></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Membership Category <span class="spanRed">*</span></label>
+                    </div><div class="col-md-4 marginBottom">
+                        @Html.DropDownListFor(x => x.MembershipCategoryId, Model.MembershipCategoryList, new { @id = "ddlMembershipCategoryList", @onchange = "FetchMembershipType();", @tabindex = 14 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Membership Name <span class="spanRed">*</span></label>
+                    </div><div class="col-md-4 marginBottom divMembershipType">
+                        @Html.DropDownListFor(x => x.MembershipTypeId, Model.MembershipNameList, new { @id = "ddlMembershipTypeList", @tabindex = 15 })
+                    </div>
+                </div>
+
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Card Number <span class="spanRed">*</span></label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.CardNumber, new { @id = "txtCardNumber", @maxlength = "10", @tabindex = 16 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Member Code </label>
+                    </div>
+                    <div class="col-md-6 marginBottom">
+                        <div class="col-md-2 marginBottom noPadding">
+                            @Html.TextBoxFor(x => x.MemberCode1, new { @class = "fieldWidth", @id = "txtMemberCode1", @maxlength = "3", @tabindex = 17 })
+                        </div>
+                        <div class="col-md-2 marginBottom paddingMargin">
+                            @Html.TextBoxFor(x => x.MemberCode2, new { @class = "fieldWidth", @id = "txtMemberCode2", @maxlength = "5", @tabindex = 18 })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Membership End Date </label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.MembershipEndDate, new { @id = "txtMembershipEndDate", @class = "datepicker", @maxlength = "10", @tabindex = 19 })
+                    </div>
+
+                    @*<div class="input-group date" data-provide="datepicker">
+                            <input type="text" class="form-control">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>*@
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Fees </label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.Fees, new { @id = "txtFees", @readonly = "readonly", @maxlength = "10", @tabindex = 20 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Credit Limit </label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.CreditLimit, new { @id = "txtCreditLimit", @readonly = "readonly", @maxlength = "10", @tabindex = 21 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Available Credit </label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.AvailableCredit, new { @id = "txtAvailableCredit", @maxlength = "10", @tabindex = 22 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Total Tax Amount </label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.TotalTaxAmount, new { @id = "txtTotalTaxAmount", @maxlength = "10", @tabindex = 23 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Net Amount </label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.NetAmount, new { @id = "txtNetAmount", @maxlength = "10", @tabindex = 24 })
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-4">
+                        <label>Amount Paid</label>
+                    </div><div class="col-md-6 marginBottom">
+                        @Html.TextBoxFor(x => x.AmountPaid, new { @id = "txtAmountPaid", @maxlength = "10", @tabindex = 25 })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row borderBottom">
+            <div class="row headerTitle">
+                <div class="col-md-8">
+                    <label><u>Family Information</u></label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Name <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.Name, new { @id = "txtName", @maxlength = "15", @tabindex = 26 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Birth Date <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.BirthDate, new { @id = "txtBirthDate", @class = "datepicker2", @tabindex = 27 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Category <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.DropDownListFor(x => x.FamilyCategoryTypeId, Model.CategoryType, new { @id = "ddlFamilyMemberCategoryList", @tabindex = 28 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Blood Group </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.DropDownListFor(x => x.BloodGroupId, Model.BloodGroupList, new { @id = "ddlBloodGroupList", @tabindex = 29 })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Relation </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.Relation, new { @id = "txtRelation", @maxlength = "10", @tabindex = 30 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Contact No </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.ContactNo, new { @id = "txtContactNo", @maxlength = "13", @tabindex = 31 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Email </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.Email, new { @id = "txtEmail", @maxlength = "50", @tabindex = 32 })
+                        </div>
+                    </div>
+                    <div class="col-md-10" style="width: 100%;">
+                        <div class="col-md-5">
+                            <label>Marital Status </label>
+                        </div>
+                        <div class="col-md-7 marginBottom">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @Html.RadioButtonFor(x => x.MaritulStatus, 1, new { id = "rbSingle", @tabindex = 33 })
+                                    @Html.Label("rbSingle", "Single")
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.RadioButtonFor(x => x.MaritulStatus, 2, new { id = "rbMarried", @tabindex = 34 })
+                                    @Html.Label("rbMarried", "Married")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Age </label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.Age, new { @id = "txtAge", @maxlength = "3", @tabindex = 35 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Card No <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.FamilyCardNumber, new { @id = "txtFamilyCardNumber", @maxlength = "10", @tabindex = 36 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            @Html.LabelFor(x => x.File2, "Photo")
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.File2, new { type = "file", @id = "fupload", onchange = "previewFile();" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row marginBottom borderBottom">
+                <div class="col-md-4"></div><div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <input type="button" id="btnAddFamily" value="Add" onclick="AddFamilyMemberDetails();" tabindex="36" style="float: right;" />
+                </div>
+            </div>
+
+
+            @if (Model.objRegisteredMembers != null && Model.objRegisteredMembers.Count() > 0)
+            {
+                if (Model.objRegisteredMembers.FirstOrDefault().familyItems != null && Model.objRegisteredMembers.FirstOrDefault().familyItems.Count() > 0)
+                {
+                    <div class="row" id="divFamilyInfo">
+                        <div style="float:left; width:100%;">
+                            <label style="width:12%;">Name</label>
+                            <label style="width:7%;">Birth Date</label>
+                            <label style="width:6%;">Category</label>
+                            <label style="width:4%;">Blood Group</label>
+                            <label style="width:5%;">Relation</label>
+                            <label style="width:8%;">Contact No</label>
+                            <label style="width:11%;">Email</label>
+                            <label style="width:6%;">Marital Status</label>
+                            <label style="width:4%;">Age</label>
+                            <label>Card No</label>
+                            <label style="width:15%;">Photo</label>
+                            <label>Action</label>
+                        </div>
+                        <div id="tblFamilyInfo" style="float:left; width:100%;">
+                            @foreach (var item in Model.objRegisteredMembers.FirstOrDefault().familyItems)
+                            {
+                                <div id="row_@count" style="float: left; width: 100%;">
+                                    <input type="text" style="width: 12%;" readonly="readonly" id="Name_@item.FamilyId" name="Name_@item.FamilyId" value="@item.Name" />
+                                    <input type="text" style="width: 7%;" readonly="readonly" class="datepicker3" id="BirthDate_@item.FamilyId" name="BirthDate_@item.FamilyId" value="@item.BirthDate" />
+                                    <input type="text" style="width: 6%;" readonly="readonly" id="FamilyMemberCategory_@item.FamilyId" name="FamilyMemberCategory_@item.FamilyId" value="@item.CategoryTypeId" />
+
+                                    @*<select id="FamilyMemberCategoryList_@item.FamilyId" name="FamilyCategoryTypeId" tabindex="28" style="display:none;width: 6%;float: left;height: 26px;">
+                                            <option value="0">Select Category</option>
+                                            <option selected="selected" value="Ragular">Ragular</option>
+                                            <option value="Corporate">Corporate</option>
+                                        </select>*@
+
+                                    @Html.DropDownListFor(x => x.FamilyCategoryTypeId, Model.CategoryType, new { @id = "ddlFamilyMemberCategoryList_" + item.FamilyId, style = "display:none;width: 6%;float: left;height: 26px;", @tabindex = 28 })
+
+                                    <input type="text" style="width: 4%;" readonly="readonly" id="BloodGroup_@item.FamilyId" name="BloodGroup_@item.FamilyId" value="@item.BloodGroupName" />
+                                    <input type="hidden" id="hdnBloodGroup_@item.FamilyId" value="@item.BloodGroupId" />
+                                    @Html.DropDownListFor(x => x.BloodGroupId, Model.BloodGroupList, new { @id = "ddlBloodGroupList_" + item.FamilyId, @style = "display:none;float: left;height: 26px;width: 4%;", @tabindex = 29 })
+
+                                    <input type="text" style="width: 5%;" readonly="readonly" id="Relation_@item.FamilyId" name="Relation_@item.FamilyId" value="@item.Relation" />
+                                    <input type="text" style="width: 8%;" readonly="readonly" id="ContactNo_@item.FamilyId" name="ContactNo_@item.FamilyId" value="@item.ContactNo" />
+                                    <input type="text" style="width: 11%;" readonly="readonly" id="Email_@item.FamilyId" name="Email_@item.FamilyId" value="@item.Email" />
+                                    <input type="text" style="width: 6%;" readonly="readonly" id="MaritalStatus_@item.FamilyId" name="MaritalStatus_@item.FamilyId" value="@item.MaritulStatus" />
+                                    <input type="text" style="width: 4%;" readonly="readonly" id="Age_@item.FamilyId" name="Age_@item.FamilyId" value="@item.Age" />
+                                    <input type="text" readonly="readonly" id="FamilyCardNumber_@item.FamilyId" name="FamilyCardNumber_@item.FamilyId" value="@item.FamilyCardNumber" />
+
+                                    <input type="hidden" readonly="readonly" id="hdnImgPreview_@item.FamilyId" name="FamilyPhoto_@item.FamilyId" value="@item.imagePath2" />
+                                    <a href="#" id="imgPreview" style="width: 15%; height: 26px; float: left;" class="imgPreview_@item.FamilyId" onclick="PreviewFamilyImage('@item.imagePath2','@item.FamilyId');">See Photo</a>
+
+                                    <input type="button" value="Update" id="btnUpdate_@item.FamilyId" onclick="UpdateFamilydetails(@item.FamilyId);" />
+                                    <input type="button" value="Save" id="btnSave_@item.FamilyId" onclick="SaveFamilydetails(@item.FamilyId);" style="display:none;" />
+                                    <input type="button" value="Cancel" id="btnCancel_@item.FamilyId" onclick="CancelFamilydetails(@item.FamilyId);" style="display:none;" />
+                                </div>
+
+                                count++;
+                            }
+                        </div>
+                    </div>
+                }
+
+            }
+
+
+
+
+        </div>
+
+        <div class="col-md-8 marginBottom marginTop">
+            <div class="col-md-4">
+                <input type="submit" id="btnMBenefitSave" title="Save" value="Save" taabindex="37" />
+            </div><div class="col-md-4">
+                <input type="button" id="btnMBenefitClose" title="Back" onclick="Back();" value="Back" tabindex="38" />
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+@section Scripts{
+    <script type="text/javascript">
+        var str = "";
+        var memberId = '@Model.Id';
+        $(document).ready(function () {
+            $(function () {
+
+                $("#txtBirthDate").val("");
+                $("#ddlFamilyMemberCategoryList option:first").prop("selected", "selected");
+                $("#txtAge").val("");
+
+                $(".datepicker").datepicker({
+                    format: 'mm/dd/yyyy'
+                });
+                $(".datepicker2").datepicker({
+                    format: 'mm/dd/yyyy'
+                });
+                $(".datepicker3").datepicker({
+                    format: 'mm/dd/yyyy'
+                });
+            });
+
+            FetchMembershipType();
+        });
+
+        function Back()
+        {
+            var path = '@Url.Action("Dashboard", "Membership")';
+
+            window.location.href = path;
+        }
+
+        @*$(window).load(function () {
+            FetchMembershipType();
+
+            var mNm = '@Model.MembershipTypeId';
+
+            $("#ddlMembershipTypeList").val("2");
+            //$("#ddlMembershipTypeList option[value=2]").prop("selected", "selected");
+        });*@
+
+        function PreviewFamilyImage(type, id) {
+            //debugger;
+            var imgName = type;
+
+            //alert(imgName);
+
+            //alert(location.href);
+
+            //var BaseUrl = '@System.Configuration.ConfigurationManager.AppSettings["FamilyPhotoPath"]';
+
+            var path = location.href;
+
+            var spltPath = path.split('/');
+
+            var fullPath = spltPath[0] + "//" + spltPath[2] + "/Content/Family/" + imgName;
+
+            //var fullPath = BaseUrl + imgName;
+
+            //alert(fullPath);
+
+            window.open(fullPath, "Window Title", "width=500, height=450");
+
+        }
+
+        function AddFamilyMemberDetails() {
+
+            //Family Info values
+            var txtName = $("#txtName").val();
+            var txtBirthDate = $("#txtBirthDate").val();
+            var selectedFamilyMemberCategoryList = $("#ddlFamilyMemberCategoryList option:selected").val();
+            var selectedBloodGroup = $("#ddlBloodGroupList option:selected").val();
+            var txtRelation = $("#txtRelation").val();
+            var txtContactNo = $("#txtContactNo").val();
+            var txtEmail = $("#txtEmail").val();
+
+            var rbMaritalStatus = $('form input[type=radio]:checked').val();
+            var maritalStatus = "";
+            if (rbMaritalStatus == "1")
+                maritalStatus = "Single";
+            else if (rbMaritalStatus == "2")
+                maritalStatus = "Married";
+
+            var txtAge = $("#txtAge").val();
+            var txtFamilyCardNumber = $("#txtFamilyCardNumber").val();
+
+            //check mandatory fields validation
+            if (txtName == "") {
+                alert("Name is Mandatory");
+                document.getElementById("txtName").focus();
+                return false;
+            }
+            if (txtBirthDate == "") {
+                alert("BirthDate is Mandatory");
+                document.getElementById("txtBirthDate").focus();
+                return false;
+            }
+
+            if (selectedFamilyMemberCategoryList == "0") {
+                selectedFamilyMemberCategoryList = "";
+            }
+            if (selectedFamilyMemberCategoryList == "") {
+                alert("Category is Mandatory");
+                document.getElementById("ddlFamilyMemberCategoryList").focus();
+                return false;
+            }
+
+            if (txtFamilyCardNumber == "") {
+                alert("Card No is Mandatory");
+                document.getElementById("txtFamilyCardNumber").focus();
+                return false;
+            }
+
+            //If blank than display N/A
+            if (selectedBloodGroup == "0")
+                selectedBloodGroup = "N/A";
+
+            if (txtRelation == "")
+                txtRelation = "N/A";
+
+            if (txtContactNo == "")
+                txtContactNo = "N/A";
+
+            if (txtEmail == "")
+                txtEmail = "N/A";
+
+            if (txtAge == "")
+                txtAge = "N/A";
+
+            var rowCount = $('#tblFamilyInfo >div').length;
+            rowCount += 1;
+
+            var HTML = "<div id = 'row_" + rowCount + "' style='float: left; width: 100 %;'>";
+            HTML += "<input type='text' style='width: 12%;' readonly = 'readonly' id = 'Name_" + rowCount + "' name = 'Name_" + rowCount + "' value = '" + txtName + "' />";
+            HTML += "<input type='text' style='width: 7%;' readonly = 'readonly' class = 'datepicker3' id = 'BirthDate_" + rowCount + "' name = 'BirthDate_" + rowCount + "' value = '" + txtBirthDate + "' />";
+            HTML += "<input type='text' style='width: 6%;' readonly = 'readonly' id = 'FamilyMemberCategory_" + rowCount + "' name = 'FamilyMemberCategory_" + rowCount + "' value = '" + selectedFamilyMemberCategoryList + "' />";
+
+            HTML += "<select id='FamilyMemberCategoryList_" + rowCount + "' name='FamilyCategoryTypeId' tabindex='28' style='display:none;width: 6%;float: left;height: 26px;'><option value='0'>Select Category</option><option value='Ragular'>Ragular</option><option value='Corporate'>Corporate</option></select>";
+
+            HTML += "<input type='text' style='width: 4%;' readonly = 'readonly' id = 'BloodGroup_" + rowCount + "' name = 'BloodGroup_" + rowCount + "' value = '" + selectedBloodGroup + "' />";
+
+            HTML += "<select id='ddlBloodGroupList_" + rowCount + "' name='BloodGroupId' tabindex='29' style='display:none;width: 4%;float: left;height: 26px;'><option value='0'>Select Blood Group</option><option value='A-'>A-</option><option value= 'A+' > A+</option> <option value='B-'>B-</option> <option value='B+'>B+</option> <option value='AB-'>AB-</option><option value='AB+'>AB+</option> <option value='O-'>O-</option> <option value='O+'>O+</option></select>";
+
+            HTML += "<input type='text' style='width: 5%;' readonly = 'readonly' id = 'Relation_" + rowCount + "' name = 'Relation_" + rowCount + "' value = '" + txtRelation + "' />";
+            HTML += "<input type='text' style='width: 8%;' readonly = 'readonly' id = 'ContactNo_" + rowCount + "' name = 'ContactNo_" + rowCount + "' value = '" + txtContactNo + "' />";
+            HTML += "<input type='text' style='width: 11%;' readonly = 'readonly' id = 'Email_" + rowCount + "' name = 'Email_" + rowCount + "' value = '" + txtEmail + "' />";
+            HTML += "<input type='text' style='width: 6%;' readonly = 'readonly' id = 'MaritalStatus_" + rowCount + "' name = 'MaritalStatus_" + rowCount + "' value = '" + maritalStatus + "' />";
+            HTML += "<input type='text' style='width: 4%;' readonly = 'readonly' id = 'Age_" + rowCount + "' name = 'Age_" + rowCount + "' value = '" + txtAge + "' />";
+            HTML += "<input type='text' readonly = 'readonly' id = 'FamilyCardNumber_" + rowCount + "' name = 'FamilyCardNumber_" + rowCount + "' value = '" + txtFamilyCardNumber + "' />";
+            //HTML += "<img id='imgPreview' style='width: 15%;height: 26px;' class = 'imgPreview_" + rowCount + "' />";
+            HTML += "<input type='hidden' readonly = 'readonly' id='hdnImgPreview_" + rowCount + "' name = 'FamilyPhoto_" + rowCount + "' value = '' /><a href = '' id='imgPreview' target = '_blank' style='width: 15%;height: 26px;float:left;' class = 'imgPreview_" + rowCount + "'>See Photo</a>";
+
+            HTML += "<input type='button' value='Update' id='btnUpdate_" + rowCount + "' onclick='UpdateFamilydetails(" + rowCount + ", 2);' style='display:none;' />";
+            HTML += "<input type='button' value='Save' id='btnSave_" + rowCount + "' onclick='SaveFamilydetails(" + rowCount + ", 2);' />";
+            HTML += "<input type='button' value='Cancel' id='btnCancel_" + rowCount + "' onclick='CancelFamilydetails(" + rowCount + ", 2);' style='display:none;' />";
+
+            HTML += "</div>";
+            //alert(HTML);
+            $("#divFamilyInfo").show();
+
+            $('#tblFamilyInfo').append(HTML);
+
+            $(".imgPreview_" + rowCount).attr("href", str);
+            $("#hdnImgPreview_" + rowCount).val($("#hdnFamilyPhotoPath").val());
+
+            //$(".imgPreview_" + rowCount).attr("src", str);
+
+            //Clear field after add
+            $("#txtName").val("");
+            $("#txtBirthDate").val("");
+            $("#ddlFamilyMemberCategoryList option:first").prop("selected", "selected");
+            $("#ddlBloodGroupList option:first").prop("selected", "selected");
+            $("#txtRelation").val("");
+            $("#txtContactNo").val("");
+            $("#txtEmail").val("");
+            $("#txtAge").val("");
+            $("#txtFamilyCardNumber").val("");
+        }
+
+        $("input[type=file]").on("change", function () {
+            //alert(this.files[0].name);
+
+            $("[for=file]").html(this.files[0].name);
+            //alert(this.files[0]);
+
+            $("#preview").attr("src", URL.createObjectURL(this.files[0]));
+            str = URL.createObjectURL(this.files[0]);
+        });
+
+        function UpdateFamilydetails(id) {
+            $("#btnSave_" + id).show();
+            $("#btnCancel_" + id).show();
+            $("#btnUpdate_" + id).hide();
+
+            readableProperty(id);
+
+            getOldValues(id);
+
+
+            var fc = $("#FamilyMemberCategory_" + id).val();
+            $("#FamilyMemberCategory_" + id).hide();
+            $("#ddlFamilyMemberCategoryList_" + id).show();
+            $("#ddlFamilyMemberCategoryList_" + id).val(fc);
+
+            var bg = $("#BloodGroup_" + id).val();
+            $("#BloodGroup_" + id).hide();
+            $("#ddlBloodGroupList_" + id).show();
+            $("#ddlBloodGroupList_" + id).val(bg);
+
+        }
+        function CancelFamilydetails(id) {
+            $("#btnSave_" + id).hide();
+            $("#btnCancel_" + id).hide();
+            $("#btnUpdate_" + id).show();
+
+            unReadableProperty(id);
+
+            resetValues(id);
+
+            $("#ddlFamilyMemberCategoryList_" + id + " option:first").prop("selected", "selected");
+            $("#ddlFamilyMemberCategoryList_" + id).hide();
+            $("#FamilyMemberCategory_" + id).show();
+
+            $("#ddlBloodGroupList_" + id + " option:first").prop("selected", "selected");
+            $("#ddlBloodGroupList_" + id).hide();
+            $("#BloodGroup_" + id).show();
+        }
+        function resetValues(id) {
+
+            $("#Name_" + id).val($("#hdnName").val());
+            $("#BirthDate_" + id).val($("#hdnBirthDate").val());
+            $("#FamilyMemberCategory_" + id).val($("#hdnCategoryTypeId").val());
+
+            $("#BloodGroup_" + id).val($("#hdnBloodGroupName").val());
+
+            $("#Relation_" + id).val($("#hdnRelation").val());
+            $("#ContactNo_" + id).val($("#hdnContactNo").val());
+            $("#Email_" + id).val($("#hdnEmail").val());
+            $("#MaritalStatus_" + id).val($("#hdnMaritulStatus").val());
+            $("#Age_" + id).val($("#hdnAge").val());
+            $("#FamilyCardNumber_" + id).val($("#hdnFamilyCardNumber").val());
+
+        }
+
+        function getOldValues(id) {
+            $("#hdnName").val($("#Name_" + id).val());
+            $("#hdnBirthDate").val($("#BirthDate_" + id).val());
+            $("#hdnCategoryTypeId").val($("#FamilyMemberCategory_" + id).val());
+
+            $("#hdnBloodGroupName").val($("#BloodGroup_" + id).val());
+
+            $("#hdnRelation").val($("#Relation_" + id).val());
+            $("#hdnContactNo").val($("#ContactNo_" + id).val());
+            $("#hdnEmail").val($("#Email_" + id).val());
+            $("#hdnMaritulStatus").val($("#MaritalStatus_" + id).val());
+            $("#hdnAge").val($("#Age_" + id).val());
+            $("#hdnFamilyCardNumber").val($("#FamilyCardNumber_" + id).val());
+
+            //$("#BirthDate_" + id).val();
+            //$("#FamilyMemberCategory_" + id).val();
+            //$("#BloodGroup_" + id).val();
+            //$("#Relation_" + id).val();
+            //$("#ContactNo_" + id).val();
+            //$("#Email_" + id).val();
+            //$("#MaritalStatus_" + id).val();
+            //$("#Age_" + id).val();
+            //$("#FamilyCardNumber_" + id).val();
+        }
+
+        function SaveFamilydetails(fId, type) {
+            $("#hdnMemberId").val(memberId);
+
+            var name = $("#Name_" + fId).val();
+            var birthDate = $("#BirthDate_" + fId).val();
+
+            var familyMemberCategory = "";
+            var bloodGroup = "";
+            if (type == 2) {
+                familyMemberCategory = $("#FamilyMemberCategory_" + fId).val();
+                bloodGroup = $("#BloodGroup_" + fId).val();
+            }
+            else {
+                familyMemberCategory = $("#ddlFamilyMemberCategoryList_" + fId + " option:selected").val();
+                bloodGroup = $("#ddlBloodGroupList_" + fId + " option:selected").val();
+            }
+
+            var relation = $("#Relation_" + fId).val();
+            var contactNo = $("#ContactNo_" + fId).val();
+            var email = $("#Email_" + fId).val();
+            var maritalStatus = $("#MaritalStatus_" + fId).val();
+            var age = $("#Age_" + fId).val();
+            var familyCardNumber = $("#FamilyCardNumber_" + fId).val();
+            var imagePath = $("#hdnImgPreview_" + fId).val();
+
+            var mId = memberId;
+            //getOldValues(fId);
+
+            var model = {
+                Name: name,
+                BirthDate: birthDate,
+                FamilyCategoryTypeId: familyMemberCategory,
+                BloodGroupName: bloodGroup,
+                Relation: relation,
+                ContactNo: contactNo,
+                Email: email,
+                MaritulStatus: maritalStatus,
+                Age: age,
+                FamilyCardNumber: familyCardNumber,
+                FamilyId: fId,
+                imagePath2: imagePath,
+                Id: memberId
+            };
+            debugger;
+            if (type == 2) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("InsertFamilyMemberDetails", "MemberRegister")',
+                    data: model,
+                    success: function (data) {
+                        if (data) {
+
+                            $("#hdnName").val(name);
+                            $("#hdnBirthDate").val(birthDate);
+                            $("#hdnCategoryTypeId").val(familyMemberCategory);
+
+                            $("#hdnBloodGroupName").val(bloodGroup);
+
+                            $("#hdnRelation").val(relation);
+                            $("#hdnContactNo").val(contactNo);
+                            $("#hdnEmail").val(email);
+                            $("#hdnMaritulStatus").val(maritalStatus);
+                            $("#hdnAge").val(age);
+                            $("#hdnFamilyCardNumber").val(familyCardNumber);
+
+
+                            $("#btnSave_" + fId).hide();
+                            $("#btnCancel_" + fId).hide();
+                            $("#btnUpdate_" + fId).show();
+
+                            unReadableProperty(fId);
+
+                            resetValues(fId);
+
+                            $("#ddlFamilyMemberCategoryList_" + fId + " option:first").prop("selected", "selected");
+                            $("#ddlFamilyMemberCategoryList_" + fId).hide();
+                            $("#FamilyMemberCategory_" + fId).show();
+
+                            $("#ddlBloodGroupList_" + fId + " option:first").prop("selected", "selected");
+                            $("#ddlBloodGroupList_" + fId).hide();
+                            $("#BloodGroup_" + fId).show();
+
+                            alert("Record/s saved successfully.");
+
+                            location.reload();
+                        }
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateFamilyMemberDetails", "MemberRegister")',
+                    data: model,
+                    success: function (data) {
+                        if (data == "1") {
+
+                            $("#hdnName").val(name);
+                            $("#hdnBirthDate").val(birthDate);
+                            $("#hdnCategoryTypeId").val(familyMemberCategory);
+
+                            $("#hdnBloodGroupName").val(bloodGroup);
+
+                            $("#hdnRelation").val(relation);
+                            $("#hdnContactNo").val(contactNo);
+                            $("#hdnEmail").val(email);
+                            $("#hdnMaritulStatus").val(maritalStatus);
+                            $("#hdnAge").val(age);
+                            $("#hdnFamilyCardNumber").val(familyCardNumber);
+
+
+                            $("#btnSave_" + fId).hide();
+                            $("#btnCancel_" + fId).hide();
+                            $("#btnUpdate_" + fId).show();
+
+                            unReadableProperty(fId);
+
+                            resetValues(fId);
+
+                            $("#ddlFamilyMemberCategoryList_" + fId + " option:first").prop("selected", "selected");
+                            $("#ddlFamilyMemberCategoryList_" + fId).hide();
+                            $("#FamilyMemberCategory_" + fId).show();
+
+                            $("#ddlBloodGroupList_" + fId + " option:first").prop("selected", "selected");
+                            $("#ddlBloodGroupList_" + fId).hide();
+                            $("#BloodGroup_" + fId).show();
+
+                            alert("Record/s updated successfully.");
+
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        }
+
+        function readableProperty(id){
+            $("#Name_" + id).prop("readonly", false);
+
+            $("#Name_" + id).prop("readonly", false);
+            $("#BirthDate_" + id).prop("readonly", false);
+            $("#FamilyMemberCategory_" + id).prop("readonly", false);
+            $("#BloodGroup_" + id).prop("readonly", false);
+            $("#Relation_" + id).prop("readonly", false);
+            $("#ContactNo_" + id).prop("readonly", false);
+            $("#Email_" + id).prop("readonly", false);
+            $("#MaritalStatus_" + id).prop("readonly", false);
+            $("#Age_" + id).prop("readonly", false);
+            $("#FamilyCardNumber_" + id).prop("readonly", false);
+        }
+
+        function unReadableProperty(id) {
+            $("#Name_" + id).prop("readonly", true);
+
+            $("#Name_" + id).prop("readonly", true);
+            $("#BirthDate_" + id).prop("readonly", true);
+            $("#FamilyMemberCategory_" + id).prop("readonly", true);
+            $("#BloodGroup_" + id).prop("readonly", true);
+            $("#Relation_" + id).prop("readonly", true);
+            $("#ContactNo_" + id).prop("readonly", true);
+            $("#Email_" + id).prop("readonly", true);
+            $("#MaritalStatus_" + id).prop("readonly", true);
+            $("#Age_" + id).prop("readonly", true);
+            $("#FamilyCardNumber_" + id).prop("readonly", true);
+        }
+
+        function previewFile() {
+
+            $("#hdnFamilyPhotoPath").val("");
+            if (window.FormData !== undefined) {
+
+                var fileUpload = $("#fupload").get(0);
+                var files = fileUpload.files;
+
+                // Create FormData object
+                var fileData = new FormData();
+
+                // Looping over all files and add it to FormData object
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                $.ajax({
+                    url: '@Url.Action("UploadFiles", "MemberRegister")',// '/MemberRegister/UploadFiles',
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+
+                        $("#hdnFamilyPhotoPath").val(result);
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+            } else {
+                alert("FormData is not supported.");
+            }
+        }
+
+        function SaveMemberShipDetails() {
+            var flag = false;
+
+            //Personal Info values
+            var txtFirstName = $("#txtFirstName").val();
+            var txtLastName = $("#txtLastName").val();
+            var txtAddress = $("#txtAddress").val();
+            var txtZipCode = $("#txtZipCode").val();
+            var txtCity = $("#txtCity").val();
+            var txtState = $("#txtState").val();
+            var selectedCountry = $("#ddlCountryList option:selected").val();
+            var selectedGender = $("#ddlGenderList option:selected").val();
+            var txtComment = $("#txtComment").val();
+            var selectedCategory = $("#ddlCategoryType option:selected").val();
+            var txtNationality = $("#txtNationality").val();
+            var selectedReferred = $("#ddlReferredList option:selected").val();
+
+            //imageUpload
+
+            var isChecked = false;
+            if ($("#chkIsActive").is(":checked")) {
+                isChecked = true;
+            }
+            var chkIsActive = isChecked;
+
+            //check mandatory fields validation
+            if (txtFirstName == "") {
+                alert("FirstName is Mandatory");
+                document.getElementById("txtFirstName").focus();
+                return false;
+            }
+
+            if (txtLastName == "") {
+                alert("LastName is Mandatory");
+                document.getElementById("txtLastName").focus();
+                return false;
+            }
+
+            if (txtAddress == "") {
+                alert("Address is Mandatory");
+                document.getElementById("txtAddress").focus();
+                return false;
+            }
+
+            if (txtZipCode == "") {
+                alert("ZipCode is Mandatory");
+                document.getElementById("txtZipCode").focus();
+                return false;
+            }
+
+            if (txtCity == "") {
+                alert("City is Mandatory");
+                document.getElementById("txtCity").focus();
+                return false;
+            }
+
+            if (txtState == "") {
+                alert("State is Mandatory");
+                document.getElementById("txtState").focus();
+                return false;
+            }
+
+            if (selectedCountry == "0")
+                selectedCountry = "";
+            if (selectedCountry == "") {
+                alert("Country is Mandatory");
+                document.getElementById("ddlCountryList").focus();
+                return false;
+            }
+
+            if (selectedGender == "0")
+                selectedGender = "";
+            if (selectedGender == "") {
+                alert("Gender is Mandatory");
+                document.getElementById("ddlGenderList").focus();
+                return false;
+            }
+
+            if (selectedCategory == "0")
+                selectedCategory = "";
+            if (selectedCategory == "") {
+                alert("Category is Mandatory");
+                document.getElementById("ddlCategoryType").focus();
+                return false;
+            }
+
+            //Membership Info values
+            var selectedMembershipCategory = $("#ddlMembershipCategoryList option:selected").val();
+            var selectedMembershipType = $("#ddlMembershipTypeList option:selected").val();
+            var txtCardNumber = $("#txtCardNumber").val();
+            var txtMemberCode1 = $("#txtMemberCode1").val();
+            var txtMemberCode2 = $("#txtMemberCode2").val();
+            var txtMembershipEndDate = $("#txtMembershipEndDate").val();
+            var txtFees = $("#txtFees").val();
+            var txtCreditLimit = $("#txtCreditLimit").val();
+            var txtAvailableCredit = $("#txtAvailableCredit").val();
+            var txtTotalTaxAmount = $("#txtTotalTaxAmount").val();
+            var txtNetAmount = $("#txtNetAmount").val();
+            var txtAmountPaid = $("#txtAmountPaid").val();
+
+            if (selectedMembershipCategory == "0")
+                selectedMembershipCategory = "";
+            if (selectedMembershipCategory == "") {
+                alert("Membership Category is Mandatory");
+                document.getElementById("ddlMembershipCategoryList").focus();
+                return false;
+            }
+
+            if (selectedMembershipType == "0")
+                selectedMembershipType = "";
+            if (selectedMembershipType == "") {
+                alert("Membership Name is Mandatory");
+                document.getElementById("ddlMembershipTypeList").focus();
+                return false;
+            }
+
+            if (txtCardNumber == "") {
+                alert("Card Number is Mandatory");
+                document.getElementById("txtCardNumber").focus();
+                return false;
+            }
+
+            //Family Info values
+            var txtName = $("#txtName").val();
+            var txtBirthDate = $("#txtBirthDate").val();
+            var selectedFamilyMemberCategoryList = $("#ddlFamilyMemberCategoryList option:selected").val();
+            var selectedBloodGroup = $("#ddlBloodGroupList option:selected").val();
+            var txtRelation = $("#txtRelation").val();
+            var txtContactNo = $("#txtContactNo").val();
+            var txtEmail = $("#txtEmail").val();
+            var rbMaritalStatus = $("input[name='rbMaritalStatus']:checked").val();
+            var txtAge = $("#txtAge").val();
+            var txtFamilyCardNumber = $("#txtFamilyCardNumber").val();
+
+            var rowCount = $('#tblFamilyInfo >div').length;
+            $("#hdnFamilyMemberCount").val(parseInt(rowCount));
+        }
+
+        function FetchMembershipType() {
+            var selectedCategory = parseInt($("#ddlMembershipCategoryList").val());
+
+            $.ajax({
+                type: "POST",
+
+                url: '@Url.Action("FetchMembershipType", "MemberRegister")',
+
+                data: { SelectedMembershipCategory: selectedCategory },
+                success: function (data) {
+                    $(".divMembershipType").html("");
+                    $(".divMembershipType").html(data);
+                }
+            });
+        }
+        function FetchMembershipDetails() {
+            var selectedCategory = parseInt($("#ddlMembershipCategoryList").val());
+            var selectedMembershipType = parseInt($("#ddlMembershipTypeList").val());
+
+            $("#hdnMembershipTypeId").val("");
+
+            $.ajax({
+                type: "POST",
+                /**/
+                url: '@Url.Action("FetchMembershipDetails", "MemberRegister")',
+                /**/
+                data: { SelectedMembershipCategory: selectedCategory, SelectedMembershipType: selectedMembershipType },
+                success: function (data) {
+
+                    $("#txtFees").val(data[0]["Fees"]);
+                    $("#txtCreditLimit").val(data[0]["CreditLimit"]);
+
+                    $("#hdnMembershipTypeId").val(selectedMembershipType);
+                }
+            });
+        }
+    </script>
+}

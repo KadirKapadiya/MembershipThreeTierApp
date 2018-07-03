@@ -1,0 +1,845 @@
+﻿@model MemberShipMVCApp.ViewModel.MembershipViewModel
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!DOCTYPE html>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.2.1/dt-1.10.16/b-1.5.1/datatables.min.css" />
+
+
+<style type="text/css">
+    #tblData thead > tr > td {
+        font-weight: bold;
+    }
+</style>
+<style>
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 60%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .headerTitle {
+        margin: 15px 0 15px 0;
+    }
+
+    .marginBottom {
+        margin-bottom: 10px;
+    }
+
+    .spanRed {
+        color: red;
+    }
+
+    .borderBottom {
+        border-bottom: 1px solid #dad5d5;
+    }
+
+    .tableBorder {
+        border: 1px solid #dcd6d6;
+        float: left;
+    }
+
+    .tableHeader {
+        text-align: center;
+        font-weight: bold;
+        padding: 10px;
+        background: #dadada;
+        border-bottom: 1px solid #808080;
+        margin-bottom: 10px;
+    }
+    .messageDiv {
+        padding: 10px 0 10px 6px;
+        background: #9deace;
+        border-radius: 2px;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-8">
+            <h2>Dashboard</h2>
+        </div>
+        <div class="col-md-4" style="padding: 20px 10px 0 0;">
+            <div class="col-md-7">
+                <input type="button" value="Add Membership Category" title="Add Membership Category/ Duration/ Benefit" onclick="AddMembershipCategoryDurationBenefit();" />
+            </div>
+            <div class="col-md-5">
+                <input type="button" value="Register Member" title="Register Member" onclick="RegisterMember();" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 messageDiv" style="display:none;">
+        @if (Model.message != null)
+        {
+            <div>@Model.message</div>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        @using (Html.BeginForm("Dashboard", "Membership", FormMethod.Post, new { @id = "MemberShipForm", @name = "MemberShipForm" }))
+        {
+            @Html.HiddenFor(x => x.Operation, new { id = "hdnOperation" });
+            @Html.HiddenFor(x => x.Id, new { id = "hdnMembershipCategoryId" });
+            @Html.HiddenFor(x => x.Type, new { id = "hdnType" });
+
+            
+
+            <div class="row tableBorder">
+                <div class="col-md-12 tableHeader">
+                    Membership Category
+                </div>
+                <div class="col-md-12">
+                    <table id="tblCategoryData" style="width:538px;">
+                        <thead>
+                            <tr>
+                                <td>Membership Name</td>
+                                <td>Category Type</td>
+                                <td>Description</td>
+                                <td>Action</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.objMemberShip != null && Model.objMemberShip.Count() > 0)
+                            {
+                                foreach (var item in Model.objMemberShip)
+                                {
+                                    <tr>
+                                        <td style="width: 23% !important;">@item.MembershipName</td>
+                                        <td style="width: 23% !important;">@item.Category</td>
+                                        <td style="width: 23% !important;">@item.Description</td>
+                                        <td style="width: 23% !important;">
+                                            <input type="button" id="@item.Id" title="Edit" onclick="GetCategoryDetails('EDIT', @item.Id);" value="Edit" />
+
+                                            <input type="button" id="@item.Id" title="Delete" onclick="PerformOperation('DELETE', 'C', @item.Id);" value="Delete" />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-6">
+        @using (Html.BeginForm("Dashboard", "Membership", FormMethod.Post, new { @id = "MemberShipForm", @name = "MemberShipForm" }))
+        {
+            @*@Html.HiddenFor(x => x.Operation, new { id = "hdnOperation" });
+                @Html.HiddenFor(x => x.MembershipCategoryId, new { id = "hdnMembershipCategoryId" });*@
+
+            
+
+            <div class="row tableBorder">
+                <div class="col-md-12 tableHeader">
+                    Membership Duration
+                </div>
+                <div class="col-md-12">
+                    <table id="tblDurationData" style="width:538px;">
+                        <thead>
+                            <tr>
+                                <td>Duration Name</td>
+                                <td>Duration Days</td>
+                                <td>Action</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.objMemberShipDuration != null && Model.objMemberShipDuration.Count() > 0)
+                            {
+                                foreach (var item in Model.objMemberShipDuration)
+                                {
+                                    <tr>
+                                        <td>@item.DurationName</td>
+                                        <td>@item.DurationDays</td>
+                                        <td>
+                                            @*<a href="" id="@item.Id" onclick="GetCategoryDetails('EDIT', @item.Id);"><i class="far fa-edit"></i></a>*@
+
+                                            <input type="button" id="@item.Id" title="Edit" onclick="GetDurationDetails('EDIT', @item.Id);" value="Edit" />
+
+                                            <input type="button" id="@item.Id" title="Delete" onclick="PerformOperation('DELETE', 'D', @item.Id);" value="Delete" />
+                                        </td>
+
+
+
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 tableBorder" style="margin-top: 15px; padding: 0;">
+        <div class="col-md-12 tableHeader">
+            Membership & Benefit
+        </div>
+        <div class="col-md-12">
+            <table id="tblMembershipBenefitData">
+                <thead>
+                    <tr>
+                        <td>Membership Name</td>
+                        <td>Membership Prefix Code</td>
+                        <td>Membership Category</td>
+                        <td>Duration</td>
+                        <td>Fees</td>
+                        <td>Credit Limit</td>
+                        <td>Max Adult</td>
+                        <td>Max Child</td>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.objMembershipBenefit != null && Model.objMembershipBenefit.Count() > 0)
+                    {
+                        foreach (var item in Model.objMembershipBenefit)
+                        {
+                            <tr>
+                                <td>@item.MembershipName</td>
+                                <td>@item.MemberPrefixCode</td>
+                                <td>@item.MembershipCategory</td>
+                                <td>@item.Duration</td>
+                                <td>@item.Fees</td>
+                                <td>@item.CreditLimit</td>
+                                <td>@item.MaxAdult</td>
+                                <td>@item.MaxChild</td>
+                                <td>
+                                    <input type="button" id="@item.Id" title="Edit" onclick="GetBenefitDetails('EDIT', @item.Id);" value="Edit" />
+
+                                    <input type="button" id="@item.Id" title="Delete" onclick="PerformOperation('DELETE', 'B', @item.Id);" value="Delete" />
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 tableBorder" style="margin-top: 15px; padding: 0;">
+        <div class="col-md-12 tableHeader">
+            Registered Members
+        </div>
+        <div class="col-md-12">
+            <table id="tblRegisteredMembers">
+                <thead>
+                    <tr>
+                        <td>FirstName</td>
+                        <td>LastName</td>
+                        <td>Address</td>
+                        <td>ZipCode</td>
+                        <td>City</td>
+                        <td>State</td>
+                        <td>Country</td>
+                        <td>Gender</td>
+                        <td>Comment</td>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.objRegisteredMembers != null && Model.objRegisteredMembers.Count() > 0)
+                    {
+                        foreach (var item in Model.objRegisteredMembers)
+                        {
+                            <tr>
+                                <td>@item.FirstName</td>
+                                <td>@item.LastName</td>
+                                <td>@item.Address</td>
+                                <td>@item.ZipCode</td>
+                                <td>@item.City</td>
+                                <td>@item.State</td>
+                                <td>@item.Country</td>
+                                <td>@item.Gender</td>
+                                <td>@item.Comment</td>
+                                <td>
+                                    <input type="button" id="@item.Id" title="Edit" onclick="PerformOperation('EDIT', 'RM', @item.Id);" value="Edit" />
+
+                                    <input type="button" id="@item.Id" title="Delete" onclick="PerformOperation('DELETE', 'RM', @item.Id);" value="Delete" />
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="divCategoryModel" style="display:none;">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="row borderBottom">
+            <div class="row headerTitle" style="margin-left: 0;">
+                <div class="col-md-8">
+                    <label><u>Membership Category</u></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="col-md-4">
+                        <label>Membership Name <span class="spanRed">*</span></label>
+                    </div><div class="col-md-4 marginBottom">
+                        @Html.TextBoxFor(x => x.Name, new { @id = "txtMembershipName", @maxlength = "50", @tabindex = 1 })
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="col-md-4">
+                        <label>Category Type <span class="spanRed">*</span></label>
+                    </div><div class="col-md-4 marginBottom">
+                        @Html.DropDownListFor(x => x.CategoryTypeId, Model.CategoryType, new { @id = "ddlCategoryType", @tabindex = 2 })
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="col-md-4">
+                        <label>Description</label>
+                    </div><div class="col-md-4 marginBottom">
+                        @Html.TextAreaFor(x => x.Description, new { @id = "txtDescription", @maxlength = "500", @tabindex = 3 })
+                    </div>
+                </div>
+                <div class="col-md-8 marginBottom">
+                    <div class="col-md-4">
+                        <input type="button" id="btnCategorySave" value="Save" onclick="SaveMemberShipDetails('C');" tabindex="4" />
+
+                        <input type="hidden" id="hdnSelectedCategoryId" />
+                    </div>
+                    @*<div class="col-md-4">
+                            <input type="button" id="btnCategoryClose" value="Close" tabindex="5" />
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="divDurationModel" style="display:none;">
+    <div class="modal-content">
+        <span class="close" onclick="ModelClose();">&times;</span>
+        <div class="row borderBottom">
+            <div class="row headerTitle">
+                <div class="col-md-8">
+                    <label><u>Membership Duration</u></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="col-md-4">
+                        <label>Duration Name <span class="spanRed">*</span></label>
+                    </div><div class="col-md-4 marginBottom">
+                        @Html.TextBoxFor(x => x.DurationName, new { @id = "txtDuration", @maxlength = "50", @tabindex = 6 })
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="col-md-4">
+                        <label>Duration Days <span class="spanRed">*</span></label>
+                    </div><div class="col-md-4 marginBottom">
+                        @Html.TextBoxFor(x => x.DurationDays, new { @id = "txtDurationDays", @maxlength = "10", @tabindex = 7, @onkeypress = "return isNumberKey(event);" })
+                    </div>
+                </div>
+                <div class="col-md-8 marginBottom">
+                    <div class="col-md-4">
+                        <input type="button" id="btnDurationSave" value="Save" onclick="SaveMemberShipDetails('D');" tabindex="8" />
+                    </div>
+                    @*<div class="col-md-4">
+                            <input type="button" id="btnDurationClose" value="Close" tabindex="9" />
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="divMembershipBenefitModel" style="display:none;">
+    <div class="modal-content">
+        <span class="close" onclick="ModelClose();">&times;</span>
+        <div class="row borderBottom">
+            <div class="row headerTitle">
+                <div class="col-md-8">
+                    <label><u>Membership & Benefit</u></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Membership Name <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.MembershipName, new { @id = "txtMembershipBenefitName", @maxlength = "50", @tabindex = 10 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Member Prefix Code <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.MembershipPrefixCode, new { @id = "txtMembershipPrefixCode", @maxlength = "15", @tabindex = 11 })
+                            <span>Enter the prefix as per Membership plan</span>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Membership Category <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.DropDownListFor(x => x.MembershipCategoryId, Model.MembershipCategoryList, new { @id = "ddlMembershipCategoryList", @tabindex = 12 })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Duration <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.DropDownListFor(x => x.DurationId, Model.DurationList, new { @id = "ddlDurationList", @tabindex = 13 })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Fees <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.Fees, new { @id = "txtFees", @maxlength = "15", @tabindex = 14, @onkeypress = "return isNumberAndDecimalKey(event);" })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Credit Limit <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.CreditLimit, new { @id = "txtCreditLimit", @maxlength = "15", @tabindex = 15 })
+                            <span>Please enter right credit limit, it is non-changeable</span>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Max Adult <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.MaxAdult, new { @id = "txtMaxAdult", @maxlength = "5", @tabindex = 16, @onkeypress = "return isNumberKey(event);" })
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-6">
+                            <label>Max Child <span class="spanRed">*</span></label>
+                        </div><div class="col-md-6 marginBottom">
+                            @Html.TextBoxFor(x => x.MaxChild, new { @id = "txtMaxChild", @maxlength = "5", @tabindex = 17, @onkeypress = "return isNumberKey(event);" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 marginBottom">
+                    <div class="col-md-4">
+                        <input type="button" id="btnMBenefitSave" value="Save" onclick="SaveMemberShipDetails('MB');" tabindex="18" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+
+@section Scripts {
+    <script type="text/javascript">                
+        $(document).ready(function () {
+            $('#tblCategoryData').dataTable({
+                "order": [[3, "desc"]],
+                "iDisplayLength": 5,
+                "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+            });
+
+            $('#tblDurationData').dataTable({
+                "order": [[3, "desc"]],
+                "iDisplayLength": 5,
+                "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+            });
+            $('#tblMembershipBenefitData').dataTable({
+                "order": [[3, "desc"]],
+                "iDisplayLength": 5,
+                "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+            });
+            $('#tblRegisteredMembers').dataTable({
+                "order": [[3, "desc"]],
+                "iDisplayLength": 5,
+                "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+            });
+        });
+
+        if ('@Model.message' != "") {            
+            $(".messageDiv").show();
+            setTimeout(function () {
+                $(".messageDiv").hide();
+            }, 8000);
+        }
+
+
+        function AddMembershipCategoryDurationBenefit()
+        {
+            var path = '@Url.Action("Index", "Membership")';
+
+            window.location.href = path;
+        }
+
+        function RegisterMember() {
+
+            var path = '@Url.Action("Index","MemberRegister")';
+            window.location.href = path;
+        }
+
+
+        function ModelClose() {
+            var modal = document.getElementById('divDurationModel');
+            modal.style.display = "none";
+
+            var modal = document.getElementById('divMembershipBenefitModel');
+            modal.style.display = "none";
+        }
+
+        function PerformOperation(Operation, Type, id)
+        {
+            if (Operation == "DELETE") {
+                var r = confirm("Are you sure to delete?");
+                if (r == true) {
+                    @*$.ajax({
+                        type: "POST",
+                        url: '@Url.Action("DeleteMembershipCategory", "Membership")',
+                        data: { Id: id },
+                        success: function (data) {
+                            alert(data.toString());
+                        }
+                    });*@
+
+                    $("#hdnOperation").val("DELETE");
+                    $("#hdnType").val(Type);
+                    $("#hdnMembershipCategoryId").val(id);
+
+                    $("#MemberShipForm").submit();
+
+                } else {
+                    return false;
+                }
+            }
+            else if (Operation == "EDIT") {
+                $("#hdnOperation").val("EDIT");
+                $("#hdnType").val(Type);
+                $("#hdnMembershipCategoryId").val(id);
+
+                $("#MemberShipForm").submit();
+            }
+        }
+        function GetCategoryDetails(Operation, id) {
+            $("#hdnSelectedCategoryId").val(id);
+            $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("GetCategoryDetails", "Membership")',
+                        data: { Id: id },
+                        success: function (data) {
+                            //$("#divCategoryModel").show();
+
+                            //data[0]["Description"]
+                            // Get the modal
+                            var modal = document.getElementById('divCategoryModel');
+                            modal.style.display = "block";
+
+                            // Get the <span> element that closes the modal
+                            var span = document.getElementsByClassName("close")[0];
+
+                            // When the user clicks on <span> (x), close the modal
+                            span.onclick = function () {
+                                modal.style.display = "none";
+                            }
+
+                            $("#txtMembershipName").val(data[0]["MembershipName"]);
+
+                            $("#ddlCategoryType").val(data[0]["Category"]);
+
+                            $("#txtDescription").val(data[0]["Description"]);
+                        }
+                    });
+        }
+
+        function SaveMemberShipDetails(type) {
+            var selectedCategory = $("#hdnSelectedCategoryId").val();
+
+            if (type == 'C') {
+                var membershipName = $("#txtMembershipName").val();
+                var description = $("#txtDescription").val();
+
+                var categoryType = $("#ddlCategoryType option:selected").val();
+
+                if (membershipName == "") {
+                    alert("Membership Name is mandatory.");
+                    document.getElementById("txtMembershipName").focus();
+                    return false;
+                }
+                if (categoryType == "" || categoryType == "0") {
+                    alert("Category Type is mandatory.");
+                    document.getElementById("ddlCategoryType").focus();
+                    return false;
+                }
+
+
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateCategorydetails", "Membership")',
+                    data: { MembershipName: membershipName, CategoryType: categoryType, Description: description, Id: selectedCategory },
+                    success: function (data) {
+                        alert(data.toString());
+
+                        $("#txtMembershipName").val("");
+                        $("#ddlCategoryType option:first").prop("selected","selected");
+                        $("#txtDescription").val("");
+
+                        //document.getElementById("txtMembershipName").focus();
+
+                        var modal = document.getElementById('divCategoryModel');
+                        //modal.style.display = "block";
+                        modal.style.display = "none";
+
+                        window.location.reload(true);
+
+                        // Get the <span> element that closes the modal
+                       // var span = document.getElementsByClassName("close")[0];
+
+                        // When the user clicks on <span> (x), close the modal
+                       // span.onclick = function () {
+                         //   modal.style.display = "none";
+                        //}
+                    }
+                });
+            }
+            else if (type == 'D') {
+                var durName = $("#txtDuration").val();
+                var durDays = $("#txtDurationDays").val();
+
+                if (durName == "") {
+                    alert("Duration Name is mandatory.");
+                    document.getElementById("txtDuration").focus();
+                    return false;
+                }
+                if (durDays == "") {
+                    alert("Duration Days is mandatory.");
+                    document.getElementById("txtDurationDays").focus();
+                    return false;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateDurationdetails", "Membership")',
+                    data: { DurationName: durName, DurationDays: parseInt(durDays), Id: selectedCategory },
+                    success: function (data) {
+                        alert(data.toString());
+
+                        $("#txtDuration").val("");
+                        $("#txtDurationDays").val("");
+
+                        var modal = document.getElementById('divDurationModel');
+                        //modal.style.display = "block";
+                        modal.style.display = "none";
+
+                        window.location.reload(true);
+                    }
+                });
+            }
+            else if (type == 'MB') {
+                var membershipBenefitName = $("#txtMembershipBenefitName").val();
+                var membershipPrefixCode = $("#txtMembershipPrefixCode").val();
+                var membershipCategoryId = $("#ddlMembershipCategoryList option:selected").val();
+                var durationId = $("#ddlDurationList option:selected").val();
+
+                if (membershipBenefitName == "") {
+                    alert("Membership Name is mandatory.");
+                    document.getElementById("txtMembershipBenefitName").focus();
+                    return false;
+                }
+                if (membershipPrefixCode == "") {
+                    alert("Membership Prefix Code is mandatory.");
+                    document.getElementById("txtMembershipPrefixCode").focus();
+                    return false;
+                }
+                if (membershipCategoryId == "" || membershipCategoryId == "0") {
+                    alert("Membership Category is mandatory.");
+                    document.getElementById("ddlMembershipCategoryList").focus();
+                    return false;
+                }
+                if (durationId == "" || durationId == "0") {
+                    alert("Duration is mandatory.");
+                    document.getElementById("ddlDurationList").focus();
+                    return false;
+                }
+
+                var fees = $("#txtFees").val();
+                var creditLimit = $("#txtCreditLimit").val();
+                var maxAdult = $("#txtMaxAdult").val();
+                var maxChild = $("#txtMaxChild").val();
+
+                if (fees == "") {
+                    alert("Fees is mandatory.");
+                    document.getElementById("txtFees").focus();
+                    return false;
+                }
+                if (creditLimit == "") {
+                    alert("CreditLimit is mandatory.");
+                    document.getElementById("txtCreditLimit").focus();
+                    return false;
+                }
+                if (maxAdult == "") {
+                    alert("MaxAdult is mandatory.");
+                    document.getElementById("txtMaxAdult").focus();
+                    return false;
+                }
+                if (maxChild == "") {
+                    alert("MaxChild is mandatory.");
+                    document.getElementById("txtMaxChild").focus();
+                    return false;
+                }
+
+                var model = {
+                    MembershipName: membershipBenefitName,
+                    MembershipPrefixCode: membershipPrefixCode,
+                    MembershipCategoryId: membershipCategoryId,
+                    DurationId: durationId,
+                    Fees: fees,
+                    CreditLimit: creditLimit,
+                    MaxAdult: maxAdult,
+                    MaxChild: maxChild,
+                    Id: selectedCategory
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateMembershipBenefitDetails", "Membership")',
+                    data: model,
+                    success: function (data) {
+                        alert(data.toString());
+
+                        $("#txtMembershipBenefitName").val("");
+                        $("#txtMembershipPrefixCode").val("");
+                        $("#ddlMembershipCategoryList option:first").prop("selected", "selected");
+                        $("#ddlDurationList option:first").prop("selected", "selected");
+                        $("#txtFees").val("");
+                        $("#txtFees").attr("placeholder", "0.00");
+                        $("#txtCreditLimit").val("");
+                        $("#txtMaxAdult").val("");
+                        $("#txtMaxChild").val("");
+
+                        document.getElementById("txtMembershipBenefitName").focus();
+                    }
+                });
+            }
+
+        }
+
+        function GetDurationDetails(Operation, id) {
+            $("#hdnSelectedCategoryId").val(id);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetDurationDetails", "Membership")',
+                data: { Id: id },
+                success: function (data) {
+                    //$("#divCategoryModel").show();
+
+                    //data[0]["Description"]
+                    // Get the modal
+
+                    var modal = document.getElementById('divDurationModel');
+                    modal.style.display = "block";
+
+                    // Get the <span> element that closes the modal
+                    var span = document.getElementsByClassName("close")[0];
+
+                    // When the user clicks on <span> (x), close the modal
+                    span.onclick = function () {
+                        modal.style.display = "none";
+                    }
+
+                    $("#txtDuration").val(data[0]["DurationName"]);
+                    $("#txtDurationDays").val(data[0]["DurationDays"]);
+
+                    //$("#txtDescription").val(data[0]["Description"]);
+                }
+            });
+        }
+
+        function GetBenefitDetails(Operation, id) {
+            $("#hdnSelectedCategoryId").val(id);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetMembershipBenefitDetails", "Membership")',
+                data: { Id: id },
+                success: function (data) {
+                    //$("#divCategoryModel").show();
+
+                    //data[0]["Description"]
+                    // Get the modal
+
+                    var modal = document.getElementById('divMembershipBenefitModel');
+                    modal.style.display = "block";
+
+                    // Get the <span> element that closes the modal
+                    var span = document.getElementsByClassName("close")[0];
+
+                    // When the user clicks on <span> (x), close the modal
+                    span.onclick = function () {
+                        modal.style.display = "none";
+                    }
+
+                    $("#txtMembershipBenefitName").val(data[0]["MembershipName"]);
+                    $("#txtMembershipPrefixCode").val(data[0]["MemberPrefixCode"]);
+                    $("#txtFees").val(data[0]["Fees"]);
+                    $("#txtCreditLimit").val(data[0]["CreditLimit"]);
+                    $("#txtMaxAdult").val(data[0]["MaxAdult"]);
+                    $("#txtMaxChild").val(data[0]["MaxChild"]);
+
+
+
+                    $("#ddlMembershipCategoryList").val(data[0]["MembershipCategoryId"]);
+                    $("#ddlDurationList").val(data[0]["DurationId"]);
+                    //$("#txtDescription").val(data[0]["Description"]);
+                }
+            });
+        }
+
+    </script>
+}
